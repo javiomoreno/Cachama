@@ -5,26 +5,31 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use app\models\CacTiposUsuarios;
 use app\models\CacSexos;
-use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "mid_usuarios".
+ * This is the model class for table "cac_usuarios".
  *
  * @property integer $usuaiden
- * @property integer $mid_sexos_sexoiden
- * @property integer $mid_tiposUsuarios_tiusiden
+ * @property integer $cac_sexos_sexoiden
+ * @property integer $cac_tiposUsuarios_tiusiden
  * @property string $usuanomb
  * @property string $usuaapel
  * @property string $usuacedu
  * @property string $usuatele
  * @property string $usuadire
+ * @property resource $usuaimag
  * @property string $usuauser
- * @property string $useapass
+ * @property string $usuapass
+ * @property integer $usuamodi
+ * @property string $fechmodi
  *
- * @property CacCategorias[] $midCategorias
- * @property CacTiposUsuarios $midTiposUsuariosTiusiden
- * @property CacSexos $midSexosSexoiden
+ * @property CacCompras[] $cacCompras
+ * @property CacTiposUsuarios $cacTiposUsuariosTiusiden
+ * @property CacSexos $cacSexosSexoiden
+ * @property CacVentas[] $cacVentas
+ * @property CacVentas[] $cacVentas0
  */
 class CacUsuarios extends ActiveRecord implements IdentityInterface
 {
@@ -43,13 +48,12 @@ class CacUsuarios extends ActiveRecord implements IdentityInterface
     {
         return [
             [['cac_sexos_sexoiden', 'cac_tiposUsuarios_tiusiden'], 'required'],
-            [['cac_sexos_sexoiden', 'cac_tiposUsuarios_tiusiden'], 'integer'],
+            [['cac_sexos_sexoiden', 'cac_tiposUsuarios_tiusiden', 'usuamodi'], 'integer'],
+            [['usuaimag'], 'string'],
+            [['fechmodi'], 'safe'],
             [['usuanomb', 'usuaapel', 'usuacedu', 'usuatele', 'usuauser'], 'string', 'max' => 50],
             [['usuadire'], 'string', 'max' => 200],
             [['usuapass'], 'string', 'max' => 250],
-            [['usuaemai'], 'string', 'max' => 150],
-            [['usuaemai'], 'unique'],
-            [['usuaemai'], 'email'],
             [['cac_tiposUsuarios_tiusiden'], 'exist', 'skipOnError' => true, 'targetClass' => CacTiposUsuarios::className(), 'targetAttribute' => ['cac_tiposUsuarios_tiusiden' => 'tiusiden']],
             [['cac_sexos_sexoiden'], 'exist', 'skipOnError' => true, 'targetClass' => CacSexos::className(), 'targetAttribute' => ['cac_sexos_sexoiden' => 'sexoiden']],
         ];
@@ -61,28 +65,28 @@ class CacUsuarios extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'usuaiden' => 'Identificador',
-            'cac_sexos_sexoiden' => 'Sexo',
-            'cacSexosSexoiden.sexonomb' => 'Sexo',
-            'cac_tiposUsuarios_tiusiden' => 'Tipo de Usuario',
-            'cacTiposUsuariosTiusiden.tiusnomb' => 'Tipo de Usuario',
-            'usuanomb' => 'Nombre de Usuario',
-            'usuaapel' => 'Apellido de Usuario',
-            'usuacedu' => 'Cédula de Usuario',
-            'usuatele' => 'Teléfono de Usuario',
-            'usuadire' => 'Dirección de Usuario',
-            'usuaemai' => 'Email de Usuario',
-            'usuauser' => 'Usuario de Acceso',
-            'usuapass' => 'Password',
+            'usuaiden' => 'Usuaiden',
+            'cac_sexos_sexoiden' => 'Cac Sexos Sexoiden',
+            'cac_tiposUsuarios_tiusiden' => 'Cac Tipos Usuarios Tiusiden',
+            'usuanomb' => 'Usuanomb',
+            'usuaapel' => 'Usuaapel',
+            'usuacedu' => 'Usuacedu',
+            'usuatele' => 'Usuatele',
+            'usuadire' => 'Usuadire',
+            'usuaimag' => 'Usuaimag',
+            'usuauser' => 'Usuauser',
+            'usuapass' => 'Usuapass',
+            'usuamodi' => 'Usuamodi',
+            'fechmodi' => 'Fechmodi',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCacCategorias()
+    public function getCacCompras()
     {
-        return $this->hasMany(CacCategorias::className(), ['mid_usuarios_usuaiden' => 'usuaiden']);
+        return $this->hasMany(CacCompras::className(), ['cac_usuarios_usuaiden' => 'usuaiden']);
     }
 
     /**
@@ -90,7 +94,7 @@ class CacUsuarios extends ActiveRecord implements IdentityInterface
      */
     public function getCacTiposUsuariosTiusiden()
     {
-        return $this->hasOne(CacTiposUsuarios::className(), ['tiusiden' => 'mid_tiposUsuarios_tiusiden']);
+        return $this->hasOne(CacTiposUsuarios::className(), ['tiusiden' => 'cac_tiposUsuarios_tiusiden']);
     }
 
     /**
@@ -98,12 +102,28 @@ class CacUsuarios extends ActiveRecord implements IdentityInterface
      */
     public function getCacSexosSexoiden()
     {
-        return $this->hasOne(CacSexos::className(), ['sexoiden' => 'mid_sexos_sexoiden']);
+        return $this->hasOne(CacSexos::className(), ['sexoiden' => 'cac_sexos_sexoiden']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCacVentas()
+    {
+        return $this->hasMany(CacVentas::className(), ['cac_usuarios_usuaiden_us' => 'usuaiden']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCacVentas0()
+    {
+        return $this->hasMany(CacVentas::className(), ['cac_usuarios_usuaiden_cl' => 'usuaiden']);
     }
 
     public static function getListaTipoUsuarios()
     {
-        $opciones = CacTiposUsuarios::find()->asArray()->all();
+        $opciones = CacTipoUsuarios::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'tiusiden', 'tiusnomb');
     }
 
@@ -204,5 +224,4 @@ class CacUsuarios extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
     }
-
 }

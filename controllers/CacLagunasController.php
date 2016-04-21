@@ -8,6 +8,7 @@ use app\models\search\CacLagunasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CacLagunasController implements the CRUD actions for CacLagunas model.
@@ -68,7 +69,11 @@ class CacLagunasController extends Controller
         $model = new CacLagunas();
 
         if ($model->load(Yii::$app->request->post())) {
-          $model->cac_usuarios_usuaiden = \Yii::$app->user->getId();
+          $model->laguimag = UploadedFile::getInstance($model, 'laguimag');
+          $model->laguimag = file_get_contents($model->laguimag);
+          $model->laguimag = base64_encode($model->laguimag);
+          $model->usuamodi = \Yii::$app->user->getId();
+          $model->fechmodi = date('Y-m-d H:i:s');
           if($model->save()){
             $model = CacLagunas::find()->all();
             return $this->render('index', [

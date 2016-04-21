@@ -8,11 +8,15 @@ use Yii;
  * This is the model class for table "cac_lagunas".
  *
  * @property integer $laguiden
- * @property integer $cac_usuarios_usuaiden
  * @property string $lagunomb
  * @property string $lagutama
  * @property integer $lagucapa
- * @property integer $lagudesc
+ * @property string $lagudesc
+ * @property resource $laguimag
+ * @property integer $usuamodi
+ * @property string $fechmodi
+ *
+ * @property CacLagunasEspecies[] $cacLagunasEspecies
  */
 class CacLagunas extends \yii\db\ActiveRecord
 {
@@ -30,10 +34,11 @@ class CacLagunas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cac_usuarios_usuaiden'], 'required'],
-            [['cac_usuarios_usuaiden', 'lagucapa'], 'integer'],
+            [['lagucapa', 'usuamodi'], 'integer'],
+            [['fechmodi'], 'safe'],
             [['lagunomb', 'lagutama'], 'string', 'max' => 50],
-            [['lagunomb', 'lagudesc'], 'string', 'max' => 300],
+            [['lagudesc'], 'string', 'max' => 200],
+            ['laguimag', 'file', 'extensions' => 'jpg, jpeg, gif, png', 'mimeTypes' => 'image/jpeg, image/gif, image/png', 'skipOnEmpty' => true],
         ];
     }
 
@@ -44,11 +49,21 @@ class CacLagunas extends \yii\db\ActiveRecord
     {
         return [
             'laguiden' => 'Laguiden',
-            'cac_usuarios_usuaiden' => 'Cac Usuarios Usuaiden',
-            'lagunomb' => 'Nombre de la Laguna',
-            'lagutama' => 'Tamaño de la Laguna',
-            'lagucapa' => 'Capacidad de la Laguna',
-            'lagudesc' => 'Descripción',
+            'lagunomb' => 'Lagunomb',
+            'lagutama' => 'Lagutama',
+            'lagucapa' => 'Lagucapa',
+            'lagudesc' => 'Lagudesc',
+            'laguimag' => 'Laguimag',
+            'usuamodi' => 'Usuamodi',
+            'fechmodi' => 'Fechmodi',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCacLagunasEspecies()
+    {
+        return $this->hasMany(CacLagunasEspecies::className(), ['cac_lagunas_laguiden' => 'laguiden']);
     }
 }

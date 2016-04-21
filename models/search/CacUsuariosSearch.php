@@ -18,8 +18,8 @@ class CacUsuariosSearch extends CacUsuarios
     public function rules()
     {
         return [
-            [['usuaiden', 'cac_sexos_sexoiden', 'cac_tiposUsuarios_tiusiden'], 'integer'],
-            [['usuanomb', 'usuaapel', 'usuacedu', 'usuatele', 'usuadire', 'usuaemai', 'usuauser', 'usuapass'], 'safe'],
+            [['usuaiden', 'cac_sexos_sexoiden', 'cac_tiposUsuarios_tiusiden', 'usuamodi'], 'integer'],
+            [['usuanomb', 'usuaapel', 'usuacedu', 'usuatele', 'usuadire', 'usuaimag', 'usuauser', 'usuapass', 'fechmodi'], 'safe'],
         ];
     }
 
@@ -62,6 +62,8 @@ class CacUsuariosSearch extends CacUsuarios
             'usuaiden' => $this->usuaiden,
             'cac_sexos_sexoiden' => $this->cac_sexos_sexoiden,
             'cac_tiposUsuarios_tiusiden' => $this->cac_tiposUsuarios_tiusiden,
+            'usuamodi' => $this->usuamodi,
+            'fechmodi' => $this->fechmodi,
         ]);
 
         $query->andFilterWhere(['like', 'usuanomb', $this->usuanomb])
@@ -69,8 +71,8 @@ class CacUsuariosSearch extends CacUsuarios
             ->andFilterWhere(['like', 'usuacedu', $this->usuacedu])
             ->andFilterWhere(['like', 'usuatele', $this->usuatele])
             ->andFilterWhere(['like', 'usuadire', $this->usuadire])
+            ->andFilterWhere(['like', 'usuaimag', $this->usuaimag])
             ->andFilterWhere(['like', 'usuauser', $this->usuauser])
-            ->andFilterWhere(['like', 'usuaemai', $this->usuaemai])
             ->andFilterWhere(['like', 'usuapass', $this->usuapass]);
 
         return $dataProvider;

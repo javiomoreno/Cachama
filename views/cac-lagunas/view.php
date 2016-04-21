@@ -29,11 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'laguiden',
-            'cac_usuarios_usuaiden',
             'lagunomb',
             'lagutama',
             'lagucapa',
         ],
     ]) ?>
+
+    <img src="data:image/jpeg;base64,<?= base64_encode($model->laguimag) ?>" height="100%" width="100%" />
 
 </div>

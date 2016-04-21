@@ -5,22 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "cac_tiposUsuarios".
+ * This is the model class for table "cac_tipoUsuarios".
  *
  * @property integer $tiusiden
  * @property string $tiusnomb
  * @property string $tiusdesc
+ * @property integer $usuamodi
+ * @property string $fechamodi
  *
  * @property CacUsuarios[] $cacUsuarios
  */
-class CacTiposUsuarios extends \yii\db\ActiveRecord
+class CacTipoUsuarios extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'cac_tiposUsuarios';
+        return 'cac_tipoUsuarios';
     }
 
     /**
@@ -29,6 +31,8 @@ class CacTiposUsuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['usuamodi'], 'integer'],
+            [['fechamodi'], 'safe'],
             [['tiusnomb'], 'string', 'max' => 50],
             [['tiusdesc'], 'string', 'max' => 200],
         ];
@@ -43,6 +47,8 @@ class CacTiposUsuarios extends \yii\db\ActiveRecord
             'tiusiden' => 'Tiusiden',
             'tiusnomb' => 'Tiusnomb',
             'tiusdesc' => 'Tiusdesc',
+            'usuamodi' => 'Usuamodi',
+            'fechamodi' => 'Fechamodi',
         ];
     }
 

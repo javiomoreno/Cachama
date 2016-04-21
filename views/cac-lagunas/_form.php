@@ -39,29 +39,33 @@ use yii\widgets\ActiveForm;
           </div>
         </div>
     </div>
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+                  'method' => 'post',
+                  'options' => [
+                        'enctype' => 'multipart/form-data',
+                    ]]); ?>
 
     <div class="row">
       <div class="col-md-8" style="padding-top: 100px;">
         <div class="row">
           <div class="col-md-6">
-            <?= $form->field($model, 'lagunomb')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'lagunomb')->textInput(['maxlength' => true])->label('Nombre de la Laguna <span class="asterisco">*</span>'); ?>
           </div>
           <div class="col-md-6">
-            <?= $form->field($model, 'lagutama')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'lagutama')->textInput(['maxlength' => true])->label('Tamaño de la Laguna <span class="asterisco">*</span>'); ?>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <?= $form->field($model, 'lagucapa')->textInput() ?>
+            <?= $form->field($model, 'lagucapa')->textInput()->label('Capacidad de la Laguna <span class="asterisco">*</span>'); ?>
           </div>
           <div class="col-md-6">
-            <?= $form->field($model, 'lagudesc')->textarea(array('rows'=>3,'cols'=>5)); ?>
+            <?= $form->field($model, 'lagudesc')->textarea(array('rows'=>3,'cols'=>5))->label('Descripción'); ?>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <input type="file" name="name" value="">
+        <?= $form->field($model, 'laguimag')->fileInput()->label('Imágen'); ?>
       </div>
     </div>
 

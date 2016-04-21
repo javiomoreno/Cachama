@@ -47,7 +47,8 @@ AppAsset::register($this);
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
                 </li>
                 <li class="divider"></li>
-                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
+                <li>
+                  <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-sign-out fa-fw']).'Salir', ['/site/logout'], ['data-method' => 'post'] );?>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -141,6 +142,18 @@ AppAsset::register($this);
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
+                                <a href="#">Clientes <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="#">Listar Clientes</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Nuevo Cliente</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-third-level -->
+                            </li>
+                            <li>
                                 <a href="#">Empleados <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
@@ -167,6 +180,84 @@ AppAsset::register($this);
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    <?php
+                      if ($this->params['pestanaAdministrador'] > 6 && $this->params['pestanaAdministrador'] <= 10) {
+                        echo "<li class='active'>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-shopping-cart fa-fw']).' Compras' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
+                        echo "<ul class='nav nav-second-level'>";
+                      }
+                      else{
+                        echo "<li>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-shopping-cart fa-fw']).' Compras' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
+                        echo "<ul class='nav nav-second-level collapse'>";
+                      }
+                    ?>
+                          <li>
+                              <a href="#">Equipos <span class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                  <li>
+                                      <a href="#">Listar Equipos</a>
+                                  </li>
+                                  <li>
+                                      <a href="#">Nuevo Equipo</a>
+                                  </li>
+                              </ul>
+                              <!-- /.nav-third-level -->
+                          </li>
+                          <li>
+                              <a href="#">Alimentos <span class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                  <li>
+                                      <a href="#">Listar Alimentos</a>
+                                  </li>
+                                  <li>
+                                      <a href="#">Nuevo Alimento</a>
+                                  </li>
+                              </ul>
+                              <!-- /.nav-third-level -->
+                          </li>
+                          <li>
+                              <a href="#">Especies <span class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                  <li>
+                                      <a href="#">Listar Alimentos</a>
+                                  </li>
+                                  <li>
+                                      <a href="#">Nuevo Alimento</a>
+                                  </li>
+                              </ul>
+                              <!-- /.nav-third-level -->
+                          </li>
+                      </ul>
+                      <!-- /.nav-second-level -->
+                  </li>
+                    <?php
+                      if ($this->params['pestanaAdministrador'] > 10 && $this->params['pestanaAdministrador'] <= 13) {
+                        echo "<li class='active'>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-dollar fa-fw']).' Ventas' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
+                        echo "<ul class='nav nav-second-level'>";
+                      }
+                      else{
+                        echo "<li>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-dollar fa-fw']).' Ventas' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
+                        echo "<ul class='nav nav-second-level collapse'>";
+                      }
+                    ?>
+                          <li>
+                              <a href="#">Especies <span class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                  <li>
+                                      <a href="#">Listar Ventas</a>
+                                  </li>
+                                  <li>
+                                      <a href="#">Nuevo Venta</a>
+                                  </li>
+                              </ul>
+                              <!-- /.nav-third-level -->
+                          </li>
+                      </ul>
+                      <!-- /.nav-second-level -->
+                  </li>
                 </li>
             </ul>
         </div>

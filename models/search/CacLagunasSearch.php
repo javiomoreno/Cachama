@@ -18,8 +18,8 @@ class CacLagunasSearch extends CacLagunas
     public function rules()
     {
         return [
-            [['laguiden', 'cac_usuarios_usuaiden', 'lagucapa'], 'integer'],
-            [['lagunomb', 'lagutama', 'lagudesc'], 'safe'],
+            [['laguiden', 'lagucapa', 'usuamodi'], 'integer'],
+            [['lagunomb', 'lagutama', 'lagudesc', 'laguimag', 'fechmodi'], 'safe'],
         ];
     }
 
@@ -60,11 +60,15 @@ class CacLagunasSearch extends CacLagunas
         // grid filtering conditions
         $query->andFilterWhere([
             'laguiden' => $this->laguiden,
-            'cac_usuarios_usuaiden' => $this->cac_usuarios_usuaiden,
+            'lagucapa' => $this->lagucapa,
+            'usuamodi' => $this->usuamodi,
+            'fechmodi' => $this->fechmodi,
         ]);
 
         $query->andFilterWhere(['like', 'lagunomb', $this->lagunomb])
-            ->andFilterWhere(['like', 'lagutama', $this->lagutama]);
+            ->andFilterWhere(['like', 'lagutama', $this->lagutama])
+            ->andFilterWhere(['like', 'lagudesc', $this->lagudesc])
+            ->andFilterWhere(['like', 'laguimag', $this->laguimag]);
 
         return $dataProvider;
     }
