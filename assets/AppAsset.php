@@ -25,9 +25,12 @@ class AppAsset extends AssetBundle
         "sb-admin/bower_components/morrisjs/morris.css",
         "sb-admin/bower_components/font-awesome/css/font-awesome.min.css",
 
+        "sb-admin/bower_components/bootstrap-fileinput/css/fileinput.min.css",
         'css/site.css',
+        'fileInput/style.css',
     ];
     public $js = [
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

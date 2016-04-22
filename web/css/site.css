@@ -172,6 +172,7 @@ a:focus, a:hover {
   margin-left: -30px;
   margin-right: -30px;
   margin-top: 30px;
+  padding: 20px 20px 0 20px;
 }
 
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
@@ -190,4 +191,13 @@ a:focus, a:hover {
   color: #5CB85C;
   background-color: #eee;
   border-color: #ddd;
+}
+
+.imagen{
+  border: 1px solid #5CB85C;
+  padding: 5px;
+}
+
+.field-caclagunas-laguimag{
+  margin-bottom: -10px;
 }

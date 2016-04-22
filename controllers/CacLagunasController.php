@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
 /**
  * CacLagunasController implements the CRUD actions for CacLagunas model.
@@ -21,6 +22,17 @@ class CacLagunasController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'view', 'update'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['administrador'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,7 +48,7 @@ class CacLagunasController extends Controller
      */
     public function actionIndex()
     {
-      Yii::$app->view->params['pestanaAdministrador'] = 2;
+        Yii::$app->view->params['pestanaAdministrador'] = 2;
         $this->layout ="administradorLayout";
         $model = CacLagunas::find()->all();
         return $this->render('index', [
@@ -51,6 +63,8 @@ class CacLagunasController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->view->params['pestanaAdministrador'] = 2;
+        $this->layout ="administradorLayout";
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -63,22 +77,19 @@ class CacLagunasController extends Controller
      */
     public function actionCreate()
     {
-      Yii::$app->view->params['pestanaAdministrador'] = 3;
-
+        Yii::$app->view->params['pestanaAdministrador'] = 3;
         $this->layout ="administradorLayout";
         $model = new CacLagunas();
 
         if ($model->load(Yii::$app->request->post())) {
-          $model->laguimag = UploadedFile::getInstance($model, 'laguimag');
-          $model->laguimag = file_get_contents($model->laguimag);
-          $model->laguimag = base64_encode($model->laguimag);
+          $file = UploadedFile::getInstance($model, 'laguimag');
+          $type = pathinfo($file, PATHINFO_EXTENSION);
+          $model->lagucodi = 'data:image/' . $type . ';base64,';
+          $model->laguimag = file_get_contents($file->tempName);
           $model->usuamodi = \Yii::$app->user->getId();
           $model->fechmodi = date('Y-m-d H:i:s');
           if($model->save()){
-            $model = CacLagunas::find()->all();
-            return $this->render('index', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['view', 'id' => $model->laguiden]);
           }
           return $this->render('create', [
               'model' => $model,
@@ -98,13 +109,23 @@ class CacLagunasController extends Controller
      */
     public function actionUpdate($id)
     {
+        Yii::$app->view->params['pestanaAdministrador'] = 2;
+        $this->layout ="administradorLayout";
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $dynamic = $model->lagucodi."".base64_encode($model->laguimag);
+        if ($model->load(Yii::$app->request->post())) {
+          $file = UploadedFile::getInstance($model, 'laguimag');
+          $type = pathinfo($file, PATHINFO_EXTENSION);
+          $model->lagucodi = 'data:image/' . $type . ';base64,';
+          $model->laguimag = file_get_contents($file->tempName);
+          $model->usuamodi = \Yii::$app->user->getId();
+          $model->fechmodi = date('Y-m-d H:i:s');
+          if($model->save()){
             return $this->redirect(['view', 'id' => $model->laguiden]);
+          }
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model, 'dynamic' => $dynamic,
             ]);
         }
     }

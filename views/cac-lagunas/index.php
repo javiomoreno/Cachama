@@ -74,6 +74,10 @@ $this->title = 'Lagunas';
     <!-- /.panel -->
   </div>
 </div>
+<footer class="footer">
+  <p class="pull-left">&copy; Cachamas <?= date('Y') ?></p>
+  <p class="pull-right"><?= Yii::powered() ?></p>
+</footer>
 <script>
 $(document).ready(function() {
     $('#dataTables-example').DataTable({

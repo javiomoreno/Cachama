@@ -13,6 +13,7 @@ use Yii;
  * @property integer $lagucapa
  * @property string $lagudesc
  * @property resource $laguimag
+ * @property resource $lagucodi
  * @property integer $usuamodi
  * @property string $fechmodi
  *
@@ -37,8 +38,9 @@ class CacLagunas extends \yii\db\ActiveRecord
             [['lagucapa', 'usuamodi'], 'integer'],
             [['fechmodi'], 'safe'],
             [['lagunomb', 'lagutama'], 'string', 'max' => 50],
+            [['lagucodi'], 'string', 'max' => 30],
             [['lagudesc'], 'string', 'max' => 200],
-            ['laguimag', 'file', 'extensions' => 'jpg, jpeg, gif, png', 'mimeTypes' => 'image/jpeg, image/gif, image/png', 'skipOnEmpty' => true],
+            ['laguimag', 'file', 'extensions' => 'jpg, jpeg, gif, png, bmp', 'mimeTypes' => 'image/jpeg, image/gif, image/png, image/bmp', 'skipOnEmpty' => true, 'maxSize' => 1024000, 'tooBig' => 'Tamaño de Imágen Máximo 1MB'],
         ];
     }
 
@@ -48,12 +50,13 @@ class CacLagunas extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'laguiden' => 'Laguiden',
-            'lagunomb' => 'Lagunomb',
-            'lagutama' => 'Lagutama',
-            'lagucapa' => 'Lagucapa',
-            'lagudesc' => 'Lagudesc',
+            'laguiden' => 'Identificador de Laguna',
+            'lagunomb' => 'Nombre de Laguna',
+            'lagutama' => 'Tamaño de Laguna',
+            'lagucapa' => 'Capacidad de Laguna',
+            'lagudesc' => 'Descripción',
             'laguimag' => 'Laguimag',
+            'Lagucodi' => 'Lagucodi',
             'usuamodi' => 'Usuamodi',
             'fechmodi' => 'Fechmodi',
         ];
