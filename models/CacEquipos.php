@@ -83,15 +83,7 @@ class CacEquipos extends \yii\db\ActiveRecord
 
     public static function getListaProveedores()
     {
-        $connection = \Yii::$app->db;
-        $query = new Query;
-        $query->select('*')
-            ->from('cac_proveedores')
-            ->where(['cac_tipoProveedores_tipriden' => 1])
-            ->all();
-        $command = $query->createCommand();
-        $opciones = $command->queryAll();
-
+        $opciones = CacProveedores::find()->where(['cac_tipoProveedores_tipriden'=>1])->all();
         return ArrayHelper::map($opciones, 'providen', 'provnomb');
     }
 }

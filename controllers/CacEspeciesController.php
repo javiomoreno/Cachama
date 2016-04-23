@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\CacEspecies;
+use app\models\CacCompras;
 use app\models\search\CacEspeciesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,8 +66,9 @@ class CacEspeciesController extends Controller
     {
         Yii::$app->view->params['pestanaAdministrador'] = 8;
         $this->layout ="administradorLayout";
+        $model2 = CacCompras::find()->where(['cac_especies_espeiden' => $id])->one();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id), 'model2' => $model2,
         ]);
     }
 
@@ -80,23 +82,30 @@ class CacEspeciesController extends Controller
         Yii::$app->view->params['pestanaAdministrador'] = 9;
         $this->layout ="administradorLayout";
         $model = new CacEspecies();
+        $model2 = new CacCompras();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model2->load(Yii::$app->request->post())) {
             $file = UploadedFile::getInstance($model, 'espeimag');
             $type = pathinfo($file, PATHINFO_EXTENSION);
             $model->especodi = 'data:image/' . $type . ';base64,';
             $model->espeimag = file_get_contents($file->tempName);
             $model->usuamodi = \Yii::$app->user->getId();
             $model->fechmodi = date('Y-m-d H:i:s');
+            $model2->cac_usuarios_usuaiden = \Yii::$app->user->getId();
             if($model->save()){
-              return $this->redirect(['view', 'id' => $model->espeiden]);
+                $model2->cac_especies_espeiden = $model->espeiden;
+                $model2->usuamodi = \Yii::$app->user->getId();
+                $model2->fechmodi = date('Y-m-d H:i:s');
+                if(!$model2->save()){
+                  return $this->render('create', [
+                      'model' => $model, 'model2' => $model2,
+                  ]);
+                }
+                return $this->redirect(['view', 'id' => $model->espeiden]);
             }
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model, 'model2' => $model2,
             ]);
         }
     }

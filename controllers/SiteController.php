@@ -74,6 +74,12 @@ class SiteController extends Controller
                 }*/
                 return Yii::$app->getResponse()->redirect(array('/usuario/index'));
             }
+            else if(\Yii::$app->user->can('empleado')){
+                /*if(ApsUsuarios::findOne(\Yii::$app->user->getId())->usuaesta == 1){
+                    return Yii::$app->getResponse()->redirect(array('/aps-usuarios/registrar'));
+                }*/
+                return Yii::$app->getResponse()->redirect(array('/empleado/index'));
+            }
             return $this->goBack();
         }
         return $this->render('login', [

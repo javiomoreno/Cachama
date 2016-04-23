@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\CacAlimentos;
+use app\models\CacCompras;
 use app\models\search\CacAlimentosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,8 +66,9 @@ class CacAlimentosController extends Controller
     {
         Yii::$app->view->params['pestanaAdministrador'] = 6;
         $this->layout ="administradorLayout";
+        $model2 = CacCompras::find()->where(['cac_alimentos_alimiden' => $id])->one();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id), 'model2' => $model2,
         ]);
     }
 
@@ -80,23 +82,33 @@ class CacAlimentosController extends Controller
         Yii::$app->view->params['pestanaAdministrador'] = 7;
         $this->layout ="administradorLayout";
         $model = new CacAlimentos();
+        $model2 = new CacCompras();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model2->load(Yii::$app->request->post())) {
             $file = UploadedFile::getInstance($model, 'alimimag');
             $type = pathinfo($file, PATHINFO_EXTENSION);
             $model->alimcodi = 'data:image/' . $type . ';base64,';
             $model->alimimag = file_get_contents($file->tempName);
             $model->usuamodi = \Yii::$app->user->getId();
             $model->fechmodi = date('Y-m-d H:i:s');
+            $model2->cac_usuarios_usuaiden = \Yii::$app->user->getId();
             if($model->save()){
-              return $this->redirect(['view', 'id' => $model->alimiden]);
+                $model2->cac_alimentos_alimiden = $model->alimiden;
+                $model2->usuamodi = \Yii::$app->user->getId();
+                $model2->fechmodi = date('Y-m-d H:i:s');
+                if(!$model2->save()){
+                  return $this->render('create', [
+                      'model' => $model, 'model2' => $model2,
+                  ]);
+                }
+                return $this->redirect(['view', 'id' => $model->alimiden]);
             }
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model, 'model2' => $model2,
             ]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model, 'model2' => $model2,
             ]);
         }
     }

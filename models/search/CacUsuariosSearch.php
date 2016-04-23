@@ -18,7 +18,7 @@ class CacUsuariosSearch extends CacUsuarios
     public function rules()
     {
         return [
-            [['usuaiden', 'cac_sexos_sexoiden', 'cac_tiposUsuarios_tiusiden', 'usuamodi'], 'integer'],
+            [['usuaiden', 'cac_sexos_sexoiden', 'cac_tipoUsuarios_tiusiden', 'usuamodi'], 'integer'],
             [['usuanomb', 'usuaapel', 'usuacedu', 'usuatele', 'usuadire', 'usuaimag', 'usuauser', 'usuapass', 'fechmodi'], 'safe'],
         ];
     }
@@ -61,7 +61,7 @@ class CacUsuariosSearch extends CacUsuarios
         $query->andFilterWhere([
             'usuaiden' => $this->usuaiden,
             'cac_sexos_sexoiden' => $this->cac_sexos_sexoiden,
-            'cac_tiposUsuarios_tiusiden' => $this->cac_tiposUsuarios_tiusiden,
+            'cac_tipoUsuarios_tiusiden' => $this->cac_tipoUsuarios_tiusiden,
             'usuamodi' => $this->usuamodi,
             'fechmodi' => $this->fechmodi,
         ]);

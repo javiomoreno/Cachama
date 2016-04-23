@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\models\CacProveedores;
+use yii\db\Query;
 
 /**
  * This is the model class for table "cac_alimentos".
@@ -82,7 +83,7 @@ class CacAlimentos extends \yii\db\ActiveRecord
 
     public static function getListaProveedores()
     {
-        $opciones = CacProveedores::find()->asArray()->all();
-        return ArrayHelper::map($opciones, 'providen', 'provnomb');
+      $opciones = CacProveedores::find()->where(['cac_tipoProveedores_tipriden'=>2])->all();
+      return ArrayHelper::map($opciones, 'providen', 'provnomb');
     }
 }

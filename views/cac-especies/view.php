@@ -51,6 +51,22 @@ $base64 = $model->especodi."".base64_encode($model->espeimag);
                         'cacProveedoresProviden.provnomb',
                         'espenomb',
                         'especara',
+                        [
+                          'label' => 'Cantidad de Equipos',
+                          'value' => $model2->compcant,
+                        ],
+                        [
+                          'label' => 'Precio Unitario',
+                          'value' => $model2->compprun,
+                        ],
+                        [
+                          'label' => 'Fecha de Compra',
+                          'value' => $model2->compfech,
+                        ],
+                        [
+                          'label' => 'Total de Compra',
+                          'value' => $model2->comptota,
+                        ],
                     ],
                 ]) ?>
               </div>

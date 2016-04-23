@@ -12,7 +12,7 @@ $titulo = 'Nuevo Alimento';
 <div class="cac-alimentos-create">
 
     <?= $this->render('_form', [
-        'model' => $model, 'titulo' => $titulo,
+        'model' => $model, 'titulo' => $titulo, 'model2' => $model2,
     ]) ?>
 
 </div>

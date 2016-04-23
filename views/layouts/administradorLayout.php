@@ -85,11 +85,18 @@ AppAsset::register($this);
                     }
                     else{
                       echo "<li>";
-                      echo Html::a(Html::tag('i', '', ['class' => 'fa fa-th-list fa-fw']).' Inventario' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
+                      echo Html::a(Html::tag('i', '', ['class' => 'fa fa-th-list fa-fw']).' Inventario' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['']);
                       echo "<ul class='nav nav-second-level collapse'>";
                     }
                   ?>
-                        <li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 2 || $this->params['pestanaAdministrador'] == 3) {
+                            echo "<li class='active'>";
+                          }
+                          else{
+                            echo "<li>";
+                          }
+                        ?>
                             <a href="#">Lagunas <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                               <li>
@@ -115,7 +122,14 @@ AppAsset::register($this);
                             </ul>
                             <!-- /.nav-third-level -->
                         </li>
-                        <li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 4 || $this->params['pestanaAdministrador'] == 5) {
+                            echo "<li class='active'>";
+                          }
+                          else{
+                            echo "<li>";
+                          }
+                        ?>
                             <a href="#">Equipos <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li>
@@ -141,7 +155,14 @@ AppAsset::register($this);
                             </ul>
                             <!-- /.nav-third-level -->
                         </li>
-                        <li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 6 || $this->params['pestanaAdministrador'] == 7) {
+                            echo "<li class='active'>";
+                          }
+                          else{
+                            echo "<li>";
+                          }
+                        ?>
                             <a href="#">Alimentos <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                               <li>
@@ -167,7 +188,14 @@ AppAsset::register($this);
                             </ul>
                             <!-- /.nav-third-level -->
                         </li>
-                        <li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 8 || $this->params['pestanaAdministrador'] == 9) {
+                            echo "<li class='active'>";
+                          }
+                          else{
+                            echo "<li>";
+                          }
+                        ?>
                             <a href="#">Especies <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li>
@@ -207,39 +235,69 @@ AppAsset::register($this);
                           echo "<ul class='nav nav-second-level collapse'>";
                         }
                       ?>
-                            <li>
+                            <?php
+                              if ($this->params['pestanaAdministrador'] == 10 || $this->params['pestanaAdministrador'] == 11) {
+                                echo "<li class='active'>";
+                              }
+                              else{
+                                echo "<li>";
+                              }
+                            ?>
                                 <a href="#">Usuarios <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a href="#">Listar Usuarios</a>
+                                      <?php
+                                        if ($this->params['pestanaAdministrador'] == 10) {
+                                          echo Html::a('Listar Usuarios', ['/cac-usuarios/index'], ['class'=>'active'] );
+                                        }
+                                        else{
+                                          echo Html::a('Listar Usuarios', ['/cac-usuarios/index'], ['class'=>''] );
+                                        }
+                                      ?>
                                     </li>
                                     <li>
-                                        <a href="#">Nuevo Usuario</a>
+                                      <?php
+                                        if ($this->params['pestanaAdministrador'] == 11) {
+                                          echo Html::a('Nuevo Usuario', ['/cac-usuarios/create'], ['class'=>'active'] );
+                                        }
+                                        else{
+                                          echo Html::a('Nuevo Usuario', ['/cac-usuarios/create'], ['class'=>''] );
+                                        }
+                                      ?>
                                     </li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
-                            <li>
+                            <?php
+                              if ($this->params['pestanaAdministrador'] == 14 || $this->params['pestanaAdministrador'] == 15) {
+                                echo "<li class='active'>";
+                              }
+                              else{
+                                echo "<li>";
+                              }
+                            ?>
                                 <a href="#">Clientes <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Listar Clientes</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Nuevo Cliente</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                            <li>
-                                <a href="#">Empleados <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Listar Empleados</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Nuevo Empleado</a>
-                                    </li>
+                                  <li>
+                                    <?php
+                                      if ($this->params['pestanaAdministrador'] == 14) {
+                                        echo Html::a('Listar Clientes', ['/cac-clientes/index'], ['class'=>'active'] );
+                                      }
+                                      else{
+                                        echo Html::a('Listar Clientes', ['/cac-clientes/index'], ['class'=>''] );
+                                      }
+                                    ?>
+                                  </li>
+                                  <li>
+                                    <?php
+                                      if ($this->params['pestanaAdministrador'] == 15) {
+                                        echo Html::a('Nuevo Cliente', ['/cac-clientes/create'], ['class'=>'active'] );
+                                      }
+                                      else{
+                                        echo Html::a('Nuevo Cliente', ['/cac-clientes/create'], ['class'=>''] );
+                                      }
+                                    ?>
+                                  </li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>

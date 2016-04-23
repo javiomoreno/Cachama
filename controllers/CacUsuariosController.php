@@ -8,6 +8,8 @@ use app\models\search\CacUsuariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
 /**
  * CacUsuariosController implements the CRUD actions for CacUsuarios model.
@@ -20,6 +22,17 @@ class CacUsuariosController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'view', 'update'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['administrador'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,13 +48,11 @@ class CacUsuariosController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->view->params['pestanaAdministrador'] = 10;
         $this->layout ="administradorLayout";
-        $searchModel = new CacUsuariosSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = CacUsuarios::find()->where('cac_tipoUsuarios_tiusiden != 4 and usuaiden != '.\Yii::$app->user->getId())->all();
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -52,6 +63,8 @@ class CacUsuariosController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->view->params['pestanaAdministrador'] = 10;
+        $this->layout ="administradorLayout";
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -64,11 +77,38 @@ class CacUsuariosController extends Controller
      */
     public function actionCreate()
     {
+        Yii::$app->view->params['pestanaAdministrador'] = 11;
+        $this->layout ="administradorLayout";
         $this->layout ="administradorLayout";
         $model = new CacUsuarios();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->usuaiden]);
+            $file = UploadedFile::getInstance($model, 'usuaimag');
+            $type = pathinfo($file, PATHINFO_EXTENSION);
+            $model->usuacodi = 'data:image/' . $type . ';base64,';
+            $model->usuaimag = file_get_contents($file->tempName);
+            $model->usuamodi = \Yii::$app->user->getId();
+            $model->fechmodi = date('Y-m-d H:i:s');
+            $model->setPassword($model->usuapass);
+            if($model->save()){
+              $auth = \Yii::$app->authManager;
+              if ($model->cac_tipoUsuarios_tiusiden == 1) {
+                  $role = $auth->getRole('administrador');
+                  $auth->assign($role, $model->getId());
+              }
+              else if ($model->cac_tipoUsuarios_tiusiden == 2) {
+                  $role = $auth->getRole('usuario');
+                  $auth->assign($role, $model->getId());
+              }
+              else if ($model->cac_tipoUsuarios_tiusiden == 3) {
+                  $role = $auth->getRole('empleado');
+                  $auth->assign($role, $model->getId());
+              }
+              return $this->redirect(['view', 'id' => $model->usuaiden]);
+            }
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -84,15 +124,31 @@ class CacUsuariosController extends Controller
      */
     public function actionUpdate($id)
     {
+        Yii::$app->view->params['pestanaAdministrador'] = 10;
+        $this->layout ="administradorLayout";
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->usuaiden]);
+        $claveOld = $model->usuapass;
+        if ($model->load(Yii::$app->request->post())) {
+          if ($model->usuapass !== $claveOld) {
+            $model->setPassword($model->usuapass);
+          }
+          $file = UploadedFile::getInstance($model, 'usuaimag');
+          $type = pathinfo($file, PATHINFO_EXTENSION);
+          $model->usuacodi = 'data:image/' . $type . ';base64,';
+          $model->usuaimag = file_get_contents($file->tempName);
+          $model->usuamodi = \Yii::$app->user->getId();
+          $model->fechmodi = date('Y-m-d H:i:s');
+          $model->save();
+          return $this->redirect(['view', 'id' => $model->usuaiden]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

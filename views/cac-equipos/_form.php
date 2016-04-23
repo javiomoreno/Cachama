@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CacLagunas */
@@ -51,18 +52,48 @@ use yii\widgets\ActiveForm;
           <div class="col-md-6">
             <?= $form->field($model, 'cac_proveedores_providen')->dropDownList($model->listaProveedores, ['prompt' => 'Seleccione Proveedor' ])->label('Proveedor <span class="asterisco">*</span>');?>
           </div>
-        </div>
-        <div class="row">
           <div class="col-md-6">
             <?= $form->field($model, 'equinomb')->textInput(['maxlength' => true])->label('Nombre del Equipo <span class="asterisco">*</span>'); ?>
           </div>
-          <div class="col-md-6">
+        </div>
+        <div class="row">
+          <div class="col-md-12">
             <?= $form->field($model, 'equidesc')->textarea(array('rows'=>3,'cols'=>5))->label('Descripción'); ?>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <?= $form->field($model2, 'compcant')->textInput(['maxlength' => true, 'onblur'=>'calcula()'])->label('Cantidad <span class="asterisco">*</span>'); ?>
+          </div>
+          <div class="col-md-4">
+            <?= $form->field($model2, 'compfech')->label('Fecha de Compra <span class="asterisco">*</span>')->widget(DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control'],]) ?>
+          </div>
+          <div class="col-md-4">
+            <?= $form->field($model2, 'compprun')->textInput(['maxlength' => true, 'onblur'=>'calcula()'])->label('Precio Unitario <span class="asterisco">*</span>'); ?>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4" style="float: right;">
+            <?= $form->field($model2, 'comptota')->textInput(['maxlength' => true, 'readonly' => true])->label('Total <span class="asterisco">*</span>'); ?>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <?= $form->field($model, 'equiimag')->fileInput()->label('Imágen'); ?>
+        <div class="input-group image-preview">
+            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+            <span class="input-group-btn">
+                <!-- image-preview-clear button -->
+                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                    <span class="glyphicon glyphicon-remove"></span> Cancelar
+                </button>
+                <!-- image-preview-input -->
+                <div class="btn btn-default image-preview-input">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <span class="image-preview-input-title">Buscar</span>
+                    <?= $form->field($model, 'equiimag')->fileInput(['accept'=>'image/*'])->label(false); ?>
+                </div>
+            </span>
+        </div>
       </div>
     </div>
 
@@ -82,3 +113,11 @@ use yii\widgets\ActiveForm;
   <p class="pull-left">&copy; Cachamas <?= date('Y') ?></p>
   <p class="pull-right"><?= Yii::powered() ?></p>
 </footer>
+
+<script type="text/javascript">
+function calcula() {
+    var cantidad = document.getElementById('caccompras-compcant').value;
+    var precio = document.getElementById('caccompras-compprun').value;
+    document.getElementById('caccompras-comptota').value = parseFloat(precio * cantidad);
+}
+</script>

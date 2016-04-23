@@ -16,7 +16,7 @@ $base64 = $model->provcodi."".base64_encode($model->provimag);
       <ul class="breadcrumb">
         <li>
           <i class="ace-icon fa fa-edit green"></i>
-          <a href="#">Registro</a>
+          <a href="#">Registrar</a>
         </li>
         <li>
           <?= Html::a('Proveedores', ['index'], '' ); ?>

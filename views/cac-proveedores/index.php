@@ -17,7 +17,7 @@ $this->title = 'Proveedores';
       <ul class="breadcrumb">
         <li>
           <i class="ace-icon fa fa-edit green"></i>
-          <a href="#">Registro</a>
+          <a href="#">Registrar</a>
         </li>
         <li class="active">Lista de Proveedores</li>
       </ul><!-- /.breadcrumb -->
