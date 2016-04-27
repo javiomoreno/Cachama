@@ -3,21 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\CacRegistroDiario;
-use app\models\CacCompras;
-use app\models\CacAlimentos;
+use app\models\CacVentas;
 use app\models\CacLagunasEspecies;
-use app\models\CacEspecies;
-use app\models\search\CacRegistroDiarioSearch;
+use app\models\search\CacVentasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 /**
- * CacRegistroDiarioController implements the CRUD actions for CacRegistroDiario model.
+ * CacVentasController implements the CRUD actions for CacVentas model.
  */
-class CacRegistroDiarioController extends Controller
+class CacVentasController extends Controller
 {
     /**
      * @inheritdoc
@@ -51,43 +48,37 @@ class CacRegistroDiarioController extends Controller
     }
 
     /**
-     * Lists all CacRegistroDiario models.
+     * Lists all CacVentas models.
      * @return mixed
      */
     public function actionIndex()
     {
         if(\Yii::$app->user->can('administrador')){
-          Yii::$app->view->params['pestanaAdministrador'] = 19;
+          Yii::$app->view->params['pestanaAdministrador'] = 21;
           $this->layout ="administradorLayout";
         }else if(\Yii::$app->user->can('usuario')){
-          Yii::$app->view->params['pestanaUsuario'] = 17;
+          Yii::$app->view->params['pestanaUsuario'] = 19;
           $this->layout ="usuarioLayout";
-        }else if(\Yii::$app->user->can('empleado')){
-          Yii::$app->view->params['pestanaEmpleado'] = 5;
-          $this->layout ="empleadoLayout";
         }
-        $model = CacRegistroDiario::find()->all();
+        $model = CacVentas::find()->all();
         return $this->render('index', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Displays a single CacRegistroDiario model.
+     * Displays a single CacVentas model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
         if(\Yii::$app->user->can('administrador')){
-          Yii::$app->view->params['pestanaAdministrador'] = 19;
+          Yii::$app->view->params['pestanaAdministrador'] = 21;
           $this->layout ="administradorLayout";
         }else if(\Yii::$app->user->can('usuario')){
-          Yii::$app->view->params['pestanaUsuario'] = 17;
+          Yii::$app->view->params['pestanaUsuario'] = 19;
           $this->layout ="usuarioLayout";
-        }else if(\Yii::$app->user->can('empleado')){
-          Yii::$app->view->params['pestanaEmpleado'] = 5;
-          $this->layout ="empleadoLayout";
         }
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -95,53 +86,42 @@ class CacRegistroDiarioController extends Controller
     }
 
     /**
-     * Creates a new CacRegistroDiario model.
+     * Creates a new CacVentas model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
         if(\Yii::$app->user->can('administrador')){
-          Yii::$app->view->params['pestanaAdministrador'] = 20;
+          Yii::$app->view->params['pestanaAdministrador'] = 22;
           $this->layout ="administradorLayout";
         }else if(\Yii::$app->user->can('usuario')){
-          Yii::$app->view->params['pestanaUsuario'] = 18;
+          Yii::$app->view->params['pestanaUsuario'] = 20;
           $this->layout ="usuarioLayout";
-        }else if(\Yii::$app->user->can('empleado')){
-          Yii::$app->view->params['pestanaEmpleado'] = 6;
-          $this->layout ="empleadoLayout";
         }
-        $model = new CacRegistroDiario();
+        $model = new CacVentas();
 
         if ($model->load(Yii::$app->request->post())) {
-          $modelCompras = CacCompras::find()->where(['cac_alimentos_alimiden' => $model->cac_alimentos_alimiden])->one();
-          $modelAlimentos = CacAlimentos::find()->where(['alimiden' => $model->cac_alimentos_alimiden])->one();
-          $modelLagunasEspecies = CacLagunasEspecies::find()->where(['cac_lagunas_laguiden'=>$model->cac_lagunas_laguiden])->one();
-          if ($model->redicaal > $modelAlimentos->alimpeto) {
-            Yii::$app->session->setFlash('noCantidadAlimento');
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-          }
-          elseif ($model->redicamu > $modelLagunasEspecies->laesdisp) {
-            Yii::$app->session->setFlash('noCantidadMuertes');
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-          }
-          else{
-            $model->usuamodi = \Yii::$app->user->getId();
-            $model->fechmodi = date('Y-m-d H:i:s');
-            if($model->save()){
-              $modelAlimentos->alimpeto = ($modelAlimentos->alimpeto - $model->redicaal);
-              $modelAlimentos->save();
-              $modelCompras->compcant = ceil(($modelAlimentos->alimpeto / $modelAlimentos->alimpeun));
-              $modelCompras->save();
-              $modelLagunasEspecies->laesdisp = ($modelLagunasEspecies->laesdisp - $model->redicamu);
-              $modelLagunasEspecies->save();
-              return $this->redirect(['view', 'id' => $model->rediiden]);
+            $modelLagunasEspecies = CacLagunasEspecies::find()->where(['laesiden'=>$model->cac_lagunas_especies_laesiden])->one();
+            if ($model->ventcaes > $modelLagunasEspecies->laesdisp) {
+              Yii::$app->session->setFlash('noCantidad');
+              return $this->render('create', [
+                  'model' => $model,
+              ]);
+            }else{
+              $model->cac_usuarios_usuaiden_us = \Yii::$app->user->getId();
+              $model->usuamodi = \Yii::$app->user->getId();
+              $model->fechmodi = date('Y-m-d H:i:s');
+              if ($model->save()) {
+                  $modelLagunasEspecies->laesdisp = ($modelLagunasEspecies->laesdisp - $model->ventcaes);
+                  $modelLagunasEspecies->save();
+                  return $this->redirect(['view', 'id' => $model->ventiden]);
+              }
+              Yii::$app->session->setFlash('noCantidad');
+              return $this->render('create', [
+                  'model' => $model,
+              ]);
             }
-          }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -150,7 +130,7 @@ class CacRegistroDiarioController extends Controller
     }
 
     /**
-     * Updates an existing CacRegistroDiario model.
+     * Updates an existing CacVentas model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -160,7 +140,7 @@ class CacRegistroDiarioController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->rediiden]);
+            return $this->redirect(['view', 'id' => $model->ventiden]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -169,7 +149,7 @@ class CacRegistroDiarioController extends Controller
     }
 
     /**
-     * Deletes an existing CacRegistroDiario model.
+     * Deletes an existing CacVentas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -182,15 +162,15 @@ class CacRegistroDiarioController extends Controller
     }
 
     /**
-     * Finds the CacRegistroDiario model based on its primary key value.
+     * Finds the CacVentas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CacRegistroDiario the loaded model
+     * @return CacVentas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CacRegistroDiario::findOne($id)) !== null) {
+        if (($model = CacVentas::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

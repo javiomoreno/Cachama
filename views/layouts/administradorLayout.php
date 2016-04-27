@@ -222,7 +222,7 @@ AppAsset::register($this);
                       </ul>
                     </li>
                       <?php
-                        if ($this->params['pestanaAdministrador'] > 9 && $this->params['pestanaAdministrador'] <= 17) {
+                        if ($this->params['pestanaAdministrador'] > 9 && $this->params['pestanaAdministrador'] <= 15) {
                           echo "<li class='active'>";
                           echo Html::a(Html::tag('i', '', ['class' => 'fa fa-edit fa-fw']).' Registrar' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
                           echo "<ul class='nav nav-second-level'>";
@@ -335,88 +335,175 @@ AppAsset::register($this);
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                      <?php
-                        if ($this->params['pestanaAdministrador'] > 15 && $this->params['pestanaAdministrador'] <= 16) {
-                          echo "<li class='active'>";
-                          echo Html::a(Html::tag('i', '', ['class' => 'fa fa-sitemap fa-fw']).' Producción' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
-                          echo "<ul class='nav nav-second-level'>";
-                        }
-                        else{
-                          echo "<li>";
-                          echo Html::a(Html::tag('i', '', ['class' => 'fa fa-sitemap fa-fw']).' Producción' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
-                          echo "<ul class='nav nav-second-level collapse'>";
-                        }
-                      ?>
-                            <li>
-                                <a href="#">Especies <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Listar Ventas</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Nuevo Venta</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
+                    <?php
+                      if ($this->params['pestanaAdministrador'] > 15 && $this->params['pestanaAdministrador'] <= 20) {
+                        echo "<li class='active'>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-sitemap fa-fw']).' Produción' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'active'] );
+                        echo "<ul class='nav nav-second-level'>";
+                      }
+                      else{
+                        echo "<li>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-sitemap fa-fw']).' Produción' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['']);
+                        echo "<ul class='nav nav-second-level collapse'>";
+                      }
+                    ?>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 16 || $this->params['pestanaAdministrador'] == 17 || $this->params['pestanaAdministrador'] == 18) {
+                            echo "<li class='active'>";
+                          }
+                          else{
+                            echo "<li>";
+                          }
+                        ?>
+                            <a href="#">Lagunas <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <?php
+                                  if ($this->params['pestanaAdministrador'] == 16) {
+                                    echo "<li class='active'>";
+                                    echo Html::a('Activar / Desactivar Lagunas', ['/cac-lagunas/lista-estados'], ['class'=>'active'] );
+                                  }
+                                  else{
+                                    echo "<li>";
+                                    echo Html::a('Activar / Desactivar Lagunas', ['/cac-lagunas/lista-estados'], ['class'=>''] );
+                                  }
+                                ?>
+                                </li>
+                              </li>
+                              <li>
+                                <?php
+                                  if ($this->params['pestanaAdministrador'] == 17) {
+                                    echo Html::a('Lagunas en Producción', ['/cac-lagunas-especies/index'], ['class'=>'active'] );
+                                  }
+                                  else{
+                                    echo Html::a('Lagunas en Producción', ['/cac-lagunas-especies/index'], ['class'=>''] );
+                                  }
+                                ?>
+                              </li>
+                              <li>
+                                <?php
+                                  if ($this->params['pestanaAdministrador'] == 18) {
+                                    echo Html::a('Nueva Laguna en Producción', ['/cac-lagunas-especies/create'], ['class'=>'active'] );
+                                  }
+                                  else{
+                                    echo Html::a('Nueva Laguna en Producción', ['/cac-lagunas-especies/create'], ['class'=>''] );
+                                  }
+                                ?>
+                              </li>
+                            </ul>
+                            <!-- /.nav-third-level -->
+                        </li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 19 || $this->params['pestanaAdministrador'] == 20) {
+                            echo "<li class='active'>";
+                          }
+                          else{
+                            echo "<li>";
+                          }
+                        ?>
+                            <a href="#">Registros Diarios <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <?php
+                                  if ($this->params['pestanaAdministrador'] == 19) {
+                                    echo "<li class='active'>";
+                                    echo Html::a('Listar Registros', ['/cac-registro-diario/index'], ['class'=>'active'] );
+                                  }
+                                  else{
+                                    echo "<li>";
+                                    echo Html::a('Listar Registros', ['/cac-registro-diario/index'], ['class'=>''] );
+                                  }
+                                ?>
+                                </li>
+                                <?php
+                                  if ($this->params['pestanaAdministrador'] == 20) {
+                                    echo "<li class='active'>";
+                                    echo Html::a('Nuevo Registro', ['/cac-registro-diario/create'], ['class'=>'active'] );
+                                  }
+                                  else{
+                                    echo "<li>";
+                                    echo Html::a('Nuevo Registro', ['/cac-registro-diario/create'], ['class'=>''] );
+                                  }
+                                ?>
+                                </li>
+                              </li>
+                            </ul>
+                            <!-- /.nav-third-level -->
+                        </li>
+                    </ul>
+                  </li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] > 20 && $this->params['pestanaAdministrador'] <= 22) {
+                            echo "<li class='active'>";
+                            echo Html::a(Html::tag('i', '', ['class' => 'fa fa-dollar fa-fw']).' Ventas' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
+                            echo "<ul class='nav nav-second-level'>";
+                          }
+                          else{
+                            echo "<li>";
+                            echo Html::a(Html::tag('i', '', ['class' => 'fa fa-dollar fa-fw']).' Ventas' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
+                            echo "<ul class='nav nav-second-level collapse'>";
+                          }
+                        ?>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 21) {
+                            echo "<li class='active'>";
+                            echo Html::a('Listar Ventas', ['/cac-ventas/index'], ['class'=>'active'] );
+                          }
+                          else{
+                            echo "<li>";
+                            echo Html::a('Listar Ventas', ['/cac-ventas/index'], ['class'=>''] );
+                          }
+                        ?>
+                        </li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 22) {
+                            echo "<li class='active'>";
+                            echo Html::a('Nueva Venta', ['/cac-ventas/create'], ['class'=>'active'] );
+                          }
+                          else{
+                            echo "<li>";
+                            echo Html::a('Nueva Venta', ['/cac-ventas/create'], ['class'=>''] );
+                          }
+                        ?>
+                        </li>
+                      </ul>
+                      <!-- /.nav-second-level -->
                     </li>
-                      <?php
-                        if ($this->params['pestanaAdministrador'] > 15 && $this->params['pestanaAdministrador'] <= 16) {
-                          echo "<li class='active'>";
-                          echo Html::a(Html::tag('i', '', ['class' => 'fa fa-file-o fa-fw']).' Reportes' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
-                          echo "<ul class='nav nav-second-level'>";
-                        }
-                        else{
-                          echo "<li>";
-                          echo Html::a(Html::tag('i', '', ['class' => 'fa fa-file-o fa-fw']).' Reportes' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
-                          echo "<ul class='nav nav-second-level collapse'>";
-                        }
-                      ?>
-                            <li>
-                                <a href="#">Especies <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Listar Ventas</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Nuevo Venta</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                      <?php
-                        if ($this->params['pestanaAdministrador'] > 15 && $this->params['pestanaAdministrador'] <= 16) {
-                          echo "<li class='active'>";
-                          echo Html::a(Html::tag('i', '', ['class' => 'fa fa-dollar fa-fw']).' Ventas' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
-                          echo "<ul class='nav nav-second-level'>";
-                        }
-                        else{
-                          echo "<li>";
-                          echo Html::a(Html::tag('i', '', ['class' => 'fa fa-dollar fa-fw']).' Ventas' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
-                          echo "<ul class='nav nav-second-level collapse'>";
-                        }
-                      ?>
-                            <li>
-                                <a href="#">Especies <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Listar Ventas</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Nuevo Venta</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                </li>
+                    <?php
+                      if ($this->params['pestanaAdministrador'] > 22 && $this->params['pestanaAdministrador'] <= 24) {
+                        echo "<li class='active'>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-file-o fa-fw']).' Reportes' . Html::tag('span', '', ['class'=>'fa arrow']), '', '' );
+                        echo "<ul class='nav nav-second-level'>";
+                      }
+                      else{
+                        echo "<li>";
+                        echo Html::a(Html::tag('i', '', ['class' => 'fa fa-file-o fa-fw']).' Reportes' . Html::tag('span', '', ['class'=>'fa arrow']), '', ['class'=>'']);
+                        echo "<ul class='nav nav-second-level collapse'>";
+                      }
+                    ?>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 22) {
+                            echo "<li class='active'>";
+                            echo Html::a('Reporte de Ventas', ['/cac-reportes/ventas'], ['class'=>'active'] );
+                          }
+                          else{
+                            echo "<li>";
+                            echo Html::a('Reporte de Ventas', ['/cac-reportes/ventas'], ['class'=>''] );
+                          }
+                        ?>
+                        </li>
+                        <?php
+                          if ($this->params['pestanaAdministrador'] == 23) {
+                            echo "<li class='active'>";
+                            echo Html::a('Reporte de Compras', ['/cac-reportes/compras'], ['class'=>'active'] );
+                          }
+                          else{
+                            echo "<li>";
+                            echo Html::a('Reporte de Compras', ['/cac-reportes/compras'], ['class'=>''] );
+                          }
+                        ?>
+                        </li>
+                      </ul>
+                      <!-- /.nav-second-level -->
+                  </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

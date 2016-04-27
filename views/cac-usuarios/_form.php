@@ -10,7 +10,7 @@ use app\models\CacUsuarios;
 $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 ?>
 
-<div class="cac-lagunas-form">
+<div class="cac-usuarios-form">
     <div class="row" style="margin-left: -30px; margin-right: -30px;">
       <div class="breadcrumbs">
         <ul class="breadcrumb">
@@ -19,7 +19,7 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
             <a href="#">Registrar</a>
           </li>
           <li>
-            <?= Html::a('Proveedores', ['index'], '' ); ?>
+            <?= Html::a('Usuarios', ['index'], '' ); ?>
           </li>
           <li class="active"><?= $titulo;?></li>
         </ul><!-- /.breadcrumb -->

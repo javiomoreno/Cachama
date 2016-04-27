@@ -80,7 +80,21 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
         </div>
       </div>
       <div class="col-md-4">
-        <?= $form->field($model, 'provimag')->fileInput()->label('Imágen'); ?>
+        <div class="input-group image-preview">
+            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+            <span class="input-group-btn">
+                <!-- image-preview-clear button -->
+                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                    <span class="glyphicon glyphicon-remove"></span> Cancelar
+                </button>
+                <!-- image-preview-input -->
+                <div class="btn btn-default image-preview-input">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <span class="image-preview-input-title">Buscar</span>
+                    <?= $form->field($model, 'provimag')->fileInput(['accept'=>'image/*'])->label(false); ?>
+                </div>
+            </span>
+        </div>
       </div>
     </div>
 

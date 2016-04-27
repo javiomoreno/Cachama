@@ -202,10 +202,9 @@ class CacAlimentosController extends Controller
 
     public function actionAlimento($id){
       $opciones = $this->findModel($id);
-      $opciones2 = CacCompras::find()->where(['cac_alimentos_alimiden' => $id])->one();
       $alimento = array(
           "alimnomb" => $opciones->alimnomb,
-          "alimcant" => ($opciones->alimpeun * $opciones2->compcant),
+          "alimcant" => $opciones->alimpeto,
       );
       print_r(json_encode($alimento));
     }

@@ -179,4 +179,13 @@ class CacUsuariosController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionCliente($id){
+      $opciones = $this->findModel($id);
+      $usuario = array(
+          "clienomb" => $opciones->usuanomb,
+          "clietele" => $opciones->usuatele,
+      );
+      print_r(json_encode($usuario));
+    }
 }

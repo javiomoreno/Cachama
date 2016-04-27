@@ -68,7 +68,7 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
         </div>
         <div class="row">
           <div class="col-md-3">
-            <?= $form->field($model, 'alimpeun')->textInput(['maxlength' => true])->label('Peso Unitario <span class="asterisco">*</span>'); ?>
+            <?= $form->field($model, 'alimpeun')->textInput(['maxlength' => true, 'onblur'=>'calcula()'])->label('Peso Unitario <span class="asterisco">*</span>'); ?>
           </div>
           <div class="col-md-3">
             <?= $form->field($model2, 'compcant')->textInput(['maxlength' => true, 'onblur'=>'calcula()'])->label('Cantidad <span class="asterisco">*</span>'); ?>
@@ -82,7 +82,10 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
         </div>
         <div class="row">
           <div class="col-md-4" style="float: right;">
-            <?= $form->field($model2, 'comptota')->textInput(['maxlength' => true, 'readonly' => true])->label('Total <span class="asterisco">*</span>'); ?>
+            <?= $form->field($model, 'alimpeto')->textInput(['maxlength' => true, 'readonly' => true])->label('Total Peso <span class="asterisco">*</span>'); ?>
+          </div>
+          <div class="col-md-4" style="float: right;">
+            <?= $form->field($model2, 'comptota')->textInput(['maxlength' => true, 'readonly' => true])->label('Total Dinero <span class="asterisco">*</span>'); ?>
           </div>
         </div>
       </div>
@@ -127,5 +130,8 @@ function calcula() {
     var cantidad = document.getElementById('caccompras-compcant').value;
     var precio = document.getElementById('caccompras-compprun').value;
     document.getElementById('caccompras-comptota').value = parseFloat(precio * cantidad);
+
+    var peso = document.getElementById('cacalimentos-alimpeun').value;
+    document.getElementById('cacalimentos-alimpeto').value = parseFloat(peso * cantidad);
 }
 </script>

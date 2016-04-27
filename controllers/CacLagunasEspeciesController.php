@@ -10,6 +10,8 @@ use app\models\search\CacLagunasEspeciesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\BaseJson;
+use yii\filters\AccessControl;
 
 /**
  * CacLagunasEspeciesController implements the CRUD actions for CacLagunasEspecies model.
@@ -22,6 +24,22 @@ class CacLagunasEspeciesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'view', 'update'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['administrador'],
+                    ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['usuario'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -37,8 +55,16 @@ class CacLagunasEspeciesController extends Controller
      */
     public function actionIndex()
     {
-      Yii::$app->view->params['pestanaEmpleado'] = 3;
-      $this->layout ="empleadoLayout";
+      if(\Yii::$app->user->can('administrador')){
+        Yii::$app->view->params['pestanaAdministrador'] = 17;
+        $this->layout ="administradorLayout";
+      }else if(\Yii::$app->user->can('usuario')){
+        Yii::$app->view->params['pestanaUsuario'] = 15;
+        $this->layout ="usuarioLayout";
+      }else if(\Yii::$app->user->can('empleado')){
+        Yii::$app->view->params['pestanaEmpleado'] = 3;
+        $this->layout ="empleadoLayout";
+      }
       $model = CacLagunasEspecies::find()->all();
       return $this->render('index', [
           'model' => $model,
@@ -52,8 +78,16 @@ class CacLagunasEspeciesController extends Controller
      */
     public function actionView($id)
     {
-        Yii::$app->view->params['pestanaEmpleado'] = 3;
-        $this->layout ="empleadoLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 17;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 15;
+          $this->layout ="usuarioLayout";
+        }else if(\Yii::$app->user->can('empleado')){
+          Yii::$app->view->params['pestanaEmpleado'] = 3;
+          $this->layout ="empleadoLayout";
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -66,8 +100,16 @@ class CacLagunasEspeciesController extends Controller
      */
     public function actionCreate()
     {
-      Yii::$app->view->params['pestanaEmpleado'] = 4;
-      $this->layout ="empleadoLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 18;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 16;
+          $this->layout ="usuarioLayout";
+        }else if(\Yii::$app->user->can('empleado')){
+          Yii::$app->view->params['pestanaEmpleado'] = 4;
+          $this->layout ="empleadoLayout";
+        }
         $model = new CacLagunasEspecies();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -145,5 +187,15 @@ class CacLagunasEspeciesController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionLagunaEspecie($id){
+      $opciones = CacLagunasEspecies::find()->one();
+      $opciones2 = CacLagunas::find()->where(['laguiden'=>$opciones->cac_lagunas_laguiden])->one();
+      $laguna = array(
+          "lagunomb" => $opciones2->lagunomb,
+          "lagucant" => $opciones->laesdisp,
+      );
+      print_r(json_encode($laguna));
     }
 }

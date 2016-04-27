@@ -27,15 +27,15 @@ class CacLagunasController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'create', 'view', 'update', 'lista-activar'],
+                'only' => ['index', 'create', 'view', 'update', 'lista-activar', 'lista-estados'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'view', 'update'],
+                        'actions' => ['index', 'create', 'view', 'update', 'lista-estados'],
                         'allow' => true,
                         'roles' => ['administrador'],
                     ],
                     [
-                        'actions' => ['index', 'create', 'view', 'update'],
+                        'actions' => ['index', 'create', 'view', 'update', 'lista-estados'],
                         'allow' => true,
                         'roles' => ['usuario'],
                     ],
@@ -200,14 +200,11 @@ class CacLagunasController extends Controller
     public function actionListaEstados()
     {
         if(\Yii::$app->user->can('administrador')){
-          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          Yii::$app->view->params['pestanaAdministrador'] = 16;
           $this->layout ="administradorLayout";
         }else if(\Yii::$app->user->can('usuario')){
-          Yii::$app->view->params['pestanaUsuario'] = 2;
+          Yii::$app->view->params['pestanaUsuario'] = 14;
           $this->layout ="usuarioLayout";
-        }else if(\Yii::$app->user->can('empleado')){
-          Yii::$app->view->params['pestanaEmpleado'] = 2;
-          $this->layout ="empleadoLayout";
         }
         $model = CacLagunas::find()->all();
         return $this->render('lista-estados', [
@@ -223,14 +220,11 @@ class CacLagunasController extends Controller
     public function actionCambiaEstado($id)
     {
         if(\Yii::$app->user->can('administrador')){
-          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          Yii::$app->view->params['pestanaAdministrador'] = 16;
           $this->layout ="administradorLayout";
         }else if(\Yii::$app->user->can('usuario')){
-          Yii::$app->view->params['pestanaUsuario'] = 2;
+          Yii::$app->view->params['pestanaUsuario'] = 14;
           $this->layout ="usuarioLayout";
-        }else if(\Yii::$app->user->can('empleado')){
-          Yii::$app->view->params['pestanaEmpleado'] = 2;
-          $this->layout ="empleadoLayout";
         }
         $model = $this->findModel($id);
         if ($model->cac_estados_estaiden == 1) {

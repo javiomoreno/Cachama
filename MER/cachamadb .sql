@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-04-2016 a las 18:49:38
+-- Tiempo de generación: 28-04-2016 a las 00:20:39
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -59,10 +59,6 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 -- Volcado de datos para la tabla `auth_item`
 --
 
-INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('administrador', 1, 'Administrador del Sistema', NULL, NULL, NULL, NULL),
-('usuario', 1, 'Usuario del Sistema', NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -97,11 +93,18 @@ CREATE TABLE IF NOT EXISTS `cac_alimentos` (
   `alimiden` int(10) unsigned NOT NULL,
   `cac_proveedores_providen` int(10) unsigned NOT NULL,
   `alimnomb` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `alimpeun` double DEFAULT NULL,
+  `alimpeto` double DEFAULT NULL,
   `alimdesc` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `alimcodi` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alimimag` longblob,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_alimentos`
+--
 
 -- --------------------------------------------------------
 
@@ -112,15 +115,16 @@ CREATE TABLE IF NOT EXISTS `cac_alimentos` (
 CREATE TABLE IF NOT EXISTS `cac_compras` (
   `compiden` int(10) unsigned NOT NULL,
   `cac_usuarios_usuaiden` int(10) unsigned NOT NULL,
-  `cac_alimentos_alimiden` int(10) unsigned NOT NULL,
-  `cac_especies_espeiden` int(10) unsigned NOT NULL,
-  `cac_equipos_equiiden` int(10) unsigned NOT NULL,
+  `cac_alimentos_alimiden` int(10) unsigned DEFAULT NULL,
+  `cac_especies_espeiden` int(10) unsigned DEFAULT NULL,
+  `cac_equipos_equiiden` int(10) unsigned DEFAULT NULL,
   `compfech` date DEFAULT NULL,
-  `comptota` float DEFAULT NULL,
+  `comptota` double DEFAULT NULL,
   `compcant` int(10) unsigned DEFAULT NULL,
+  `compprun` double DEFAULT NULL,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -131,12 +135,14 @@ CREATE TABLE IF NOT EXISTS `cac_compras` (
 CREATE TABLE IF NOT EXISTS `cac_equipos` (
   `equiiden` int(10) unsigned NOT NULL,
   `cac_proveedores_providen` int(10) unsigned NOT NULL,
+  `cac_estados_estaiden` int(10) unsigned NOT NULL,
   `equinomb` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `equidesc` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `equicodi` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `equiimag` longblob,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -149,10 +155,38 @@ CREATE TABLE IF NOT EXISTS `cac_especies` (
   `cac_proveedores_providen` int(10) unsigned NOT NULL,
   `espenomb` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `especara` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `especodi` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `espeimag` longblob,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_especies`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cac_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `cac_estados` (
+  `estaiden` int(10) unsigned NOT NULL,
+  `estanomb` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `estadesc` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `usuamodi` int(10) unsigned DEFAULT NULL,
+  `fechamodi` date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_estados`
+--
+
+INSERT INTO `cac_estados` (`estaiden`, `estanomb`, `estadesc`, `usuamodi`, `fechamodi`) VALUES
+(1, 'Activa', 'Estado de Laguna Activa para pasar a producción', 1, '2016-04-22'),
+(2, 'Inactiva', 'Estado de la laguna Inactiva al crearla o que deje de estar en producción', 1, '2016-04-22'),
+(3, 'En Producción', 'Estado de la laguna En Producción', 1, '2016-04-26');
 
 -- --------------------------------------------------------
 
@@ -162,22 +196,20 @@ CREATE TABLE IF NOT EXISTS `cac_especies` (
 
 CREATE TABLE IF NOT EXISTS `cac_lagunas` (
   `laguiden` int(10) unsigned NOT NULL,
+  `cac_estados_estaiden` int(10) unsigned DEFAULT NULL,
   `lagunomb` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `lagutama` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `lagucapa` int(10) unsigned DEFAULT NULL,
   `lagudesc` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `laguimag` longblob,
+  `lagucodi` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cac_lagunas`
 --
-
-INSERT INTO `cac_lagunas` (`laguiden`, `lagunomb`, `lagutama`, `lagucapa`, `lagudesc`, `laguimag`, `usuamodi`, `fechmodi`) VALUES
-(1, 'Laguna 1', '23', 21, 'Descripcion', NULL, 1, '2016-04-21'),
-(11, 'Laguna 1', '23', 21, 'dsbdsbsdb', 0x545556534c6e42755a773d3d, 1, '2016-04-21');
 
 -- --------------------------------------------------------
 
@@ -186,14 +218,18 @@ INSERT INTO `cac_lagunas` (`laguiden`, `lagunomb`, `lagutama`, `lagucapa`, `lagu
 --
 
 CREATE TABLE IF NOT EXISTS `cac_lagunas_especies` (
-  `laesinde` int(10) unsigned NOT NULL,
+  `laesiden` int(10) unsigned NOT NULL,
   `cac_especies_espeiden` int(10) unsigned NOT NULL,
   `cac_lagunas_laguiden` int(10) unsigned NOT NULL,
   `laestota` int(10) unsigned DEFAULT NULL,
   `laesdisp` int(10) unsigned DEFAULT NULL,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_lagunas_especies`
+--
 
 -- --------------------------------------------------------
 
@@ -209,10 +245,36 @@ CREATE TABLE IF NOT EXISTS `cac_proveedores` (
   `provdire` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `provtele` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `provemai` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `provcodi` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `provimag` longblob,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_proveedores`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cac_registroDiario`
+--
+
+CREATE TABLE IF NOT EXISTS `cac_registroDiario` (
+  `rediiden` int(10) unsigned NOT NULL,
+  `cac_lagunas_laguiden` int(10) unsigned NOT NULL,
+  `cac_alimentos_alimiden` int(10) unsigned NOT NULL,
+  `redifech` date DEFAULT NULL,
+  `redicamu` int(10) unsigned DEFAULT NULL,
+  `redicaal` int(10) unsigned DEFAULT NULL,
+  `usuamodi` int(11) DEFAULT NULL,
+  `fechmodi` date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_registroDiario`
+--
 
 -- --------------------------------------------------------
 
@@ -248,7 +310,16 @@ CREATE TABLE IF NOT EXISTS `cac_tipoProveedores` (
   `tiprdesc` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_tipoProveedores`
+--
+
+INSERT INTO `cac_tipoProveedores` (`tipriden`, `tiprnomb`, `tiprdesc`, `usuamodi`, `fechmodi`) VALUES
+(1, 'Proveedor de Equipos', 'Proveedor que distribuye Equipos', 1, '2016-04-21'),
+(2, 'Proveedor de Alimentos', 'Proveedor que distribuye Alimentos', 1, '2016-04-21'),
+(3, 'Proveedor de Especies', 'Proveedor que distribuye Especies', 1, '2016-04-21');
 
 -- --------------------------------------------------------
 
@@ -262,7 +333,7 @@ CREATE TABLE IF NOT EXISTS `cac_tipoUsuarios` (
   `tiusdesc` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechamodi` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cac_tipoUsuarios`
@@ -270,7 +341,9 @@ CREATE TABLE IF NOT EXISTS `cac_tipoUsuarios` (
 
 INSERT INTO `cac_tipoUsuarios` (`tiusiden`, `tiusnomb`, `tiusdesc`, `usuamodi`, `fechamodi`) VALUES
 (1, 'Administrador', 'Administrador del Sistema', NULL, NULL),
-(2, 'Usuario', 'Usuario del Sistema', NULL, NULL);
+(2, 'Usuario', 'Usuario del Sistema', NULL, NULL),
+(3, 'Empleado', 'Empleados de la Empresa', 1, '2016-04-22'),
+(4, 'Cliente', 'Cientes de la Empresa', 1, '2016-04-22');
 
 -- --------------------------------------------------------
 
@@ -281,25 +354,26 @@ INSERT INTO `cac_tipoUsuarios` (`tiusiden`, `tiusnomb`, `tiusdesc`, `usuamodi`, 
 CREATE TABLE IF NOT EXISTS `cac_usuarios` (
   `usuaiden` int(10) unsigned NOT NULL,
   `cac_sexos_sexoiden` int(10) unsigned NOT NULL,
-  `cac_tiposUsuarios_tiusiden` int(10) unsigned NOT NULL,
+  `cac_tipoUsuarios_tiusiden` int(10) unsigned NOT NULL,
   `usuanomb` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuaapel` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuacedu` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuatele` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuadire` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `usuacodi` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuaimag` longblob,
   `usuauser` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuapass` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuamodi` int(11) DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cac_usuarios`
 --
 
-INSERT INTO `cac_usuarios` (`usuaiden`, `cac_sexos_sexoiden`, `cac_tiposUsuarios_tiusiden`, `usuanomb`, `usuaapel`, `usuacedu`, `usuatele`, `usuadire`, `usuaimag`, `usuauser`, `usuapass`, `usuamodi`, `fechmodi`) VALUES
-(1, 2, 1, 'Administrador', 'Administrador', NULL, NULL, NULL, NULL, 'admin', 'MTIzNDU2', 0, NULL);
+INSERT INTO `cac_usuarios` (`usuaiden`, `cac_sexos_sexoiden`, `cac_tipoUsuarios_tiusiden`, `usuanomb`, `usuaapel`, `usuacedu`, `usuatele`, `usuadire`, `usuacodi`, `usuaimag`, `usuauser`, `usuapass`, `usuamodi`, `fechmodi`) VALUES
+(1, 2, 1, 'Administrador', '', NULL, NULL, NULL, NULL, NULL, 'admin', 'MTIzNDU2', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -309,14 +383,20 @@ INSERT INTO `cac_usuarios` (`usuaiden`, `cac_sexos_sexoiden`, `cac_tiposUsuarios
 
 CREATE TABLE IF NOT EXISTS `cac_ventas` (
   `ventiden` int(10) unsigned NOT NULL,
-  `cac_lagunas_especies_laesinde` int(10) unsigned NOT NULL,
+  `cac_lagunas_especies_laesiden` int(10) unsigned NOT NULL,
   `cac_usuarios_usuaiden_cl` int(10) unsigned NOT NULL,
   `cac_usuarios_usuaiden_us` int(10) unsigned NOT NULL,
   `ventfech` date DEFAULT NULL,
-  `vanttota` float DEFAULT NULL,
+  `ventcaes` int(11) DEFAULT NULL,
+  `ventpres` double DEFAULT NULL,
+  `venttota` float DEFAULT NULL,
   `usuamodi` int(10) unsigned DEFAULT NULL,
   `fechmodi` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cac_ventas`
+--
 
 -- --------------------------------------------------------
 
@@ -390,7 +470,8 @@ ALTER TABLE `cac_compras`
 --
 ALTER TABLE `cac_equipos`
   ADD PRIMARY KEY (`equiiden`),
-  ADD KEY `cac_equipos_FKIndex1` (`cac_proveedores_providen`);
+  ADD KEY `cac_equipos_FKIndex1` (`cac_proveedores_providen`),
+  ADD KEY `cac_estado_estaiden` (`cac_estados_estaiden`);
 
 --
 -- Indices de la tabla `cac_especies`
@@ -400,16 +481,23 @@ ALTER TABLE `cac_especies`
   ADD KEY `cac_especies_FKIndex1` (`cac_proveedores_providen`);
 
 --
+-- Indices de la tabla `cac_estados`
+--
+ALTER TABLE `cac_estados`
+  ADD PRIMARY KEY (`estaiden`);
+
+--
 -- Indices de la tabla `cac_lagunas`
 --
 ALTER TABLE `cac_lagunas`
-  ADD PRIMARY KEY (`laguiden`);
+  ADD PRIMARY KEY (`laguiden`),
+  ADD KEY `cac_estado_estaiden` (`cac_estados_estaiden`);
 
 --
 -- Indices de la tabla `cac_lagunas_especies`
 --
 ALTER TABLE `cac_lagunas_especies`
-  ADD PRIMARY KEY (`laesinde`),
+  ADD PRIMARY KEY (`laesiden`),
   ADD KEY `cac_lagunas_especies_FKIndex1` (`cac_lagunas_laguiden`),
   ADD KEY `cac_lagunas_especies_FKIndex2` (`cac_especies_espeiden`);
 
@@ -419,6 +507,16 @@ ALTER TABLE `cac_lagunas_especies`
 ALTER TABLE `cac_proveedores`
   ADD PRIMARY KEY (`providen`),
   ADD KEY `cac_proveedores_FKIndex1` (`cac_tipoProveedores_tipriden`);
+
+--
+-- Indices de la tabla `cac_registroDiario`
+--
+ALTER TABLE `cac_registroDiario`
+  ADD PRIMARY KEY (`rediiden`),
+  ADD KEY `cac_registroDiario_FKIndex1` (`cac_alimentos_alimiden`),
+  ADD KEY `cac_registroDiario_FKIndex2` (`cac_lagunas_laguiden`),
+  ADD KEY `cac_lagunas_laguiden` (`cac_lagunas_laguiden`),
+  ADD KEY `cac_alimentos_alimiden` (`cac_alimentos_alimiden`);
 
 --
 -- Indices de la tabla `cac_sexos`
@@ -443,7 +541,7 @@ ALTER TABLE `cac_tipoUsuarios`
 --
 ALTER TABLE `cac_usuarios`
   ADD PRIMARY KEY (`usuaiden`),
-  ADD KEY `mid_usuarios_FKIndex1` (`cac_tiposUsuarios_tiusiden`),
+  ADD KEY `mid_usuarios_FKIndex1` (`cac_tipoUsuarios_tiusiden`),
   ADD KEY `mid_usuarios_FKIndex2` (`cac_sexos_sexoiden`);
 
 --
@@ -453,7 +551,7 @@ ALTER TABLE `cac_ventas`
   ADD PRIMARY KEY (`ventiden`),
   ADD KEY `cac_ventas_FKIndex1` (`cac_usuarios_usuaiden_us`),
   ADD KEY `cac_ventas_FKIndex2` (`cac_usuarios_usuaiden_cl`),
-  ADD KEY `cac_ventas_FKIndex3` (`cac_lagunas_especies_laesinde`);
+  ADD KEY `cac_ventas_FKIndex3` (`cac_lagunas_especies_laesiden`);
 
 --
 -- Indices de la tabla `migration`
@@ -469,37 +567,47 @@ ALTER TABLE `migration`
 -- AUTO_INCREMENT de la tabla `cac_alimentos`
 --
 ALTER TABLE `cac_alimentos`
-  MODIFY `alimiden` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `alimiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `cac_compras`
 --
 ALTER TABLE `cac_compras`
-  MODIFY `compiden` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `compiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `cac_equipos`
 --
 ALTER TABLE `cac_equipos`
-  MODIFY `equiiden` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `equiiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `cac_especies`
 --
 ALTER TABLE `cac_especies`
-  MODIFY `espeiden` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `espeiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `cac_estados`
+--
+ALTER TABLE `cac_estados`
+  MODIFY `estaiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `cac_lagunas`
 --
 ALTER TABLE `cac_lagunas`
-  MODIFY `laguiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `laguiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT de la tabla `cac_lagunas_especies`
 --
 ALTER TABLE `cac_lagunas_especies`
-  MODIFY `laesinde` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `laesiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `cac_proveedores`
 --
 ALTER TABLE `cac_proveedores`
-  MODIFY `providen` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `providen` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `cac_registroDiario`
+--
+ALTER TABLE `cac_registroDiario`
+  MODIFY `rediiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `cac_sexos`
 --
@@ -509,22 +617,22 @@ ALTER TABLE `cac_sexos`
 -- AUTO_INCREMENT de la tabla `cac_tipoProveedores`
 --
 ALTER TABLE `cac_tipoProveedores`
-  MODIFY `tipriden` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `tipriden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `cac_tipoUsuarios`
 --
 ALTER TABLE `cac_tipoUsuarios`
-  MODIFY `tiusiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `tiusiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `cac_usuarios`
 --
 ALTER TABLE `cac_usuarios`
-  MODIFY `usuaiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `usuaiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT de la tabla `cac_ventas`
 --
 ALTER TABLE `cac_ventas`
-  MODIFY `ventiden` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `ventiden` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --
@@ -567,13 +675,20 @@ ALTER TABLE `cac_compras`
 -- Filtros para la tabla `cac_equipos`
 --
 ALTER TABLE `cac_equipos`
-  ADD CONSTRAINT `cac_equipos_ibfk_1` FOREIGN KEY (`cac_proveedores_providen`) REFERENCES `cac_proveedores` (`providen`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cac_equipos_ibfk_1` FOREIGN KEY (`cac_proveedores_providen`) REFERENCES `cac_proveedores` (`providen`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cac_estados_ibfk_1` FOREIGN KEY (`cac_estados_estaiden`) REFERENCES `cac_estados` (`estaiden`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `cac_especies`
 --
 ALTER TABLE `cac_especies`
   ADD CONSTRAINT `cac_especies_ibfk_1` FOREIGN KEY (`cac_proveedores_providen`) REFERENCES `cac_proveedores` (`providen`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `cac_lagunas`
+--
+ALTER TABLE `cac_lagunas`
+  ADD CONSTRAINT `cac_estados_ibfk_2` FOREIGN KEY (`cac_estados_estaiden`) REFERENCES `cac_estados` (`estaiden`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `cac_lagunas_especies`
@@ -589,10 +704,17 @@ ALTER TABLE `cac_proveedores`
   ADD CONSTRAINT `cac_proveedores_ibfk_1` FOREIGN KEY (`cac_tipoProveedores_tipriden`) REFERENCES `cac_tipoProveedores` (`tipriden`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Filtros para la tabla `cac_registroDiario`
+--
+ALTER TABLE `cac_registroDiario`
+  ADD CONSTRAINT `cac_alimentos_ibfk_5` FOREIGN KEY (`cac_alimentos_alimiden`) REFERENCES `cac_alimentos` (`alimiden`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cac_lagunas_ibfk_5` FOREIGN KEY (`cac_lagunas_laguiden`) REFERENCES `cac_lagunas` (`laguiden`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Filtros para la tabla `cac_usuarios`
 --
 ALTER TABLE `cac_usuarios`
-  ADD CONSTRAINT `cac_usuarios_ibfk_1` FOREIGN KEY (`cac_tiposUsuarios_tiusiden`) REFERENCES `cac_tipoUsuarios` (`tiusiden`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cac_usuarios_ibfk_1` FOREIGN KEY (`cac_tipoUsuarios_tiusiden`) REFERENCES `cac_tipoUsuarios` (`tiusiden`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `cac_usuarios_ibfk_2` FOREIGN KEY (`cac_sexos_sexoiden`) REFERENCES `cac_sexos` (`sexoiden`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -601,7 +723,7 @@ ALTER TABLE `cac_usuarios`
 ALTER TABLE `cac_ventas`
   ADD CONSTRAINT `cac_ventas_ibfk_1` FOREIGN KEY (`cac_usuarios_usuaiden_us`) REFERENCES `cac_usuarios` (`usuaiden`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `cac_ventas_ibfk_2` FOREIGN KEY (`cac_usuarios_usuaiden_cl`) REFERENCES `cac_usuarios` (`usuaiden`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `cac_ventas_ibfk_3` FOREIGN KEY (`cac_lagunas_especies_laesinde`) REFERENCES `cac_lagunas_especies` (`laesinde`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cac_ventas_ibfk_3` FOREIGN KEY (`cac_lagunas_especies_laesiden`) REFERENCES `cac_lagunas_especies` (`laesiden`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
