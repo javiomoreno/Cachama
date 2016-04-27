@@ -81,17 +81,7 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
               </div>
             </div>
             <div class="panel-footer">
-              <div style="text-align: center;">
-                <?= Html::a('Editar', ['update', 'id' => $model->espeiden], ['class' => 'btn btn-primary', 'style' => 'color:#fff']) ?>
-                <?= Html::a('Eliminar', ['delete', 'id' => $model->espeiden], [
-                    'class' => 'btn btn-danger',
-                    'style' => 'color:#fff',
-                    'data' => [
-                        'confirm' => '¿Seguro desea Eliminar el Registro?',
-                        'method' => 'post',
-                    ],
-                ]) ?>
-              </div>
+              
             </div>
         </div>
     </div>

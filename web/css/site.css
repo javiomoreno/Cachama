@@ -270,6 +270,11 @@ a:focus, a:hover {
   margin-bottom: -10px;
 }
 
+.field-cacproveedores-provimag{
+  margin-bottom: -10px;
+}
+
+
 .nombre-usuario{
   float: right;
   font-size: 13px;

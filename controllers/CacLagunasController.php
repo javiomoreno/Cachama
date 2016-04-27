@@ -205,6 +205,9 @@ class CacLagunasController extends Controller
         }else if(\Yii::$app->user->can('usuario')){
           Yii::$app->view->params['pestanaUsuario'] = 14;
           $this->layout ="usuarioLayout";
+        }else if(\Yii::$app->user->can('empleado')){
+          Yii::$app->view->params['pestanaEmpleado'] = 2;
+          $this->layout ="empleadoLayout";
         }
         $model = CacLagunas::find()->all();
         return $this->render('lista-estados', [
@@ -225,6 +228,9 @@ class CacLagunasController extends Controller
         }else if(\Yii::$app->user->can('usuario')){
           Yii::$app->view->params['pestanaUsuario'] = 14;
           $this->layout ="usuarioLayout";
+        }else if(\Yii::$app->user->can('empleado')){
+          Yii::$app->view->params['pestanaEmpleado'] = 2;
+          $this->layout ="empleadoLayout";
         }
         $model = $this->findModel($id);
         if ($model->cac_estados_estaiden == 1) {

@@ -39,6 +39,11 @@ class CacRegistroDiarioController extends Controller
                         'allow' => true,
                         'roles' => ['usuario'],
                     ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['empleado'],
+                    ],
                 ],
             ],
             'verbs' => [

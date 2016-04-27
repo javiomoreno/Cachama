@@ -63,8 +63,6 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
                             <td><?= $value->cacProveedoresProviden->provnomb;?></td>
                             <td style="text-align: center;">
                               <?= Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open green']).'', ['cac-alimentos/view?id='.$value->alimiden], '' );?>
-                              <?= Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-pencil blue']).'', ['/cac-alimentos/update?id='.$value->alimiden], '' );?>
-                              <?= Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash red']).'', ['/cac-alimentos/delete?id='.$value->alimiden], ['data-method' => 'post'] );?>
                             </td>
                         </tr>
                       <?php endforeach; ?>
