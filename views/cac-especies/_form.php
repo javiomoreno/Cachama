@@ -3,10 +3,13 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
+use app\models\CacUsuarios;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CacLagunas */
 /* @var $form yii\widgets\ActiveForm */
+
+$usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 ?>
 
 <div class="cac-especies-form">
@@ -22,6 +25,9 @@ use yii\jui\DatePicker;
           </li>
           <li class="active"><?= $titulo;?></li>
         </ul><!-- /.breadcrumb -->
+        <div class="nombre-usuario">
+          Bienvenido, <?= $usuario->usuanomb." ".$usuario->usuaapel;?>
+        </div>
       </div>
     </div>
     <div class="row">

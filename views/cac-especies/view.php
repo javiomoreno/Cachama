@@ -2,13 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\CacUsuarios;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CacLagunas */
 
 $this->title = $model->espenomb;
 $base64 = $model->especodi."".base64_encode($model->espeimag);
-
+$usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 ?>
 <div class="cac-equipos-view">
   <div class="row" style="margin-left: -30px; margin-right: -30px;">
@@ -23,6 +24,9 @@ $base64 = $model->especodi."".base64_encode($model->espeimag);
         </li>
         <li class="active">Detalle de la Especie</li>
       </ul><!-- /.breadcrumb -->
+      <div class="nombre-usuario">
+        Bienvenido, <?= $usuario->usuanomb." ".$usuario->usuaapel;?>
+      </div>
     </div>
   </div>
   <div class="row">

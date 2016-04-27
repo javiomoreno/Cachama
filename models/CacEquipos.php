@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\models\CacProveedores;
+use app\models\CacEstados;
 use yii\db\Query;
 
 /**
@@ -12,6 +13,7 @@ use yii\db\Query;
  *
  * @property integer $equiiden
  * @property integer $cac_proveedores_providen
+ * @property integer $cac_estados_estaiden
  * @property string $equinomb
  * @property string $equidesc
  * @property resource $equiimag
@@ -38,13 +40,14 @@ class CacEquipos extends \yii\db\ActiveRecord
     {
         return [
             [['cac_proveedores_providen', 'equinomb'], 'required'],
-            [['cac_proveedores_providen', 'usuamodi'], 'integer'],
+            [['cac_proveedores_providen', 'cac_estados_estaiden', 'usuamodi'], 'integer'],
             [['fechmodi'], 'safe'],
             [['equinomb'], 'string', 'max' => 50],
             [['equidesc'], 'string', 'max' => 200],
             [['equicodi'], 'string', 'max' => 30],
             [['equiimag'], 'file', 'extensions' => 'jpg, jpeg, gif, png, bmp', 'mimeTypes' => 'image/jpeg, image/gif, image/png, image/bmp', 'skipOnEmpty' => true, 'maxSize' => 1024000, 'tooBig' => 'Tamaño de Imágen Máximo 1MB'],
             [['cac_proveedores_providen'], 'exist', 'skipOnError' => true, 'targetClass' => CacProveedores::className(), 'targetAttribute' => ['cac_proveedores_providen' => 'providen']],
+            [['cac_estados_estaiden'], 'exist', 'skipOnError' => true, 'targetClass' => CacEstados::className(), 'targetAttribute' => ['cac_estados_estaiden' => 'estaiden']],
         ];
     }
 
@@ -56,6 +59,7 @@ class CacEquipos extends \yii\db\ActiveRecord
         return [
             'equiiden' => 'Identificador del Equipo',
             'cac_proveedores_providen' => 'Proveedor',
+            'cac_estados_estaiden' => 'Estado del Equipo',
             'equinomb' => 'Nombre del Equipo',
             'equidesc' => 'Descripción del Equipo',
             'equicodi' => 'Equicodi',
@@ -79,6 +83,14 @@ class CacEquipos extends \yii\db\ActiveRecord
     public function getCacProveedoresProviden()
     {
         return $this->hasOne(CacProveedores::className(), ['providen' => 'cac_proveedores_providen']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCacEstadosEstaiden()
+    {
+        return $this->hasOne(CacEstados::className(), ['estaiden' => 'cac_estados_estaiden']);
     }
 
     public static function getListaProveedores()

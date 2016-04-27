@@ -2,12 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\CacUsuarios;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CacLagunas */
 
 $this->title = $model->usuanomb;
 $base64 = $model->usuacodi."".base64_encode($model->usuaimag);
+$usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 
 ?>
 <div class="cac-clientes-view">
@@ -23,6 +25,9 @@ $base64 = $model->usuacodi."".base64_encode($model->usuaimag);
         </li>
         <li class="active">Detalle del Cliente</li>
       </ul><!-- /.breadcrumb -->
+      <div class="nombre-usuario">
+        Bienvenido, <?= $usuario->usuanomb." ".$usuario->usuaapel;?>
+      </div>
     </div>
   </div>
   <div class="row">

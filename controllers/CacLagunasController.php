@@ -4,12 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\CacLagunas;
+use app\models\CacLagunasEspecies;
 use app\models\search\CacLagunasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use yii\helpers\BaseJson;
+
 
 /**
  * CacLagunasController implements the CRUD actions for CacLagunas model.
@@ -24,12 +27,22 @@ class CacLagunasController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'create', 'view', 'update'],
+                'only' => ['index', 'create', 'view', 'update', 'lista-activar'],
                 'rules' => [
                     [
                         'actions' => ['index', 'create', 'view', 'update'],
                         'allow' => true,
                         'roles' => ['administrador'],
+                    ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['usuario'],
+                    ],
+                    [
+                        'actions' => ['lista-estados'],
+                        'allow' => true,
+                        'roles' => ['empleado'],
                     ],
                 ],
             ],
@@ -48,8 +61,13 @@ class CacLagunasController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 2;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 2;
+          $this->layout ="usuarioLayout";
+        }
         $model = CacLagunas::find()->all();
         return $this->render('index', [
             'model' => $model,
@@ -63,8 +81,13 @@ class CacLagunasController extends Controller
      */
     public function actionView($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 2;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 2;
+          $this->layout ="usuarioLayout";
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -77,8 +100,13 @@ class CacLagunasController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 3;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 3;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 3;
+          $this->layout ="usuarioLayout";
+        }
         $model = new CacLagunas();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -86,6 +114,7 @@ class CacLagunasController extends Controller
           $type = pathinfo($file, PATHINFO_EXTENSION);
           $model->lagucodi = 'data:image/' . $type . ';base64,';
           $model->laguimag = file_get_contents($file->tempName);
+          $model->cac_estados_estaiden = 2;
           $model->usuamodi = \Yii::$app->user->getId();
           $model->fechmodi = date('Y-m-d H:i:s');
           if($model->save()){
@@ -109,8 +138,13 @@ class CacLagunasController extends Controller
      */
     public function actionUpdate($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 2;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 2;
+          $this->layout ="usuarioLayout";
+        }
         $model = $this->findModel($id);
         $dynamic = $model->lagucodi."".base64_encode($model->laguimag);
         if ($model->load(Yii::$app->request->post())) {
@@ -157,5 +191,78 @@ class CacLagunasController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Activar laguna para pasar a producción.
+     * @return mixed
+     */
+    public function actionListaEstados()
+    {
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 2;
+          $this->layout ="usuarioLayout";
+        }else if(\Yii::$app->user->can('empleado')){
+          Yii::$app->view->params['pestanaEmpleado'] = 2;
+          $this->layout ="empleadoLayout";
+        }
+        $model = CacLagunas::find()->all();
+        return $this->render('lista-estados', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Cambiar estado de a  Laguna
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionCambiaEstado($id)
+    {
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 2;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 2;
+          $this->layout ="usuarioLayout";
+        }else if(\Yii::$app->user->can('empleado')){
+          Yii::$app->view->params['pestanaEmpleado'] = 2;
+          $this->layout ="empleadoLayout";
+        }
+        $model = $this->findModel($id);
+        if ($model->cac_estados_estaiden == 1) {
+          $model->cac_estados_estaiden = 2;
+        }
+        else if ($model->cac_estados_estaiden == 2) {
+          $model->cac_estados_estaiden = 1;
+        }
+        $model->save();
+        $model = CacLagunas::find()->all();
+        return $this->render('lista-estados', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionLaguna($id){
+      $opciones = $this->findModel($id);
+      $laguna = array(
+          "lagunomb" => $opciones->lagunomb,
+          "lagucapa" => $opciones->lagucapa,
+      );
+      print_r(json_encode($laguna));
+    }
+
+    public function actionLagunaProduccion($id){
+      $opciones = CacLagunas::find()->one();
+      $opciones2 = CacLagunasEspecies::find()->where(['cac_lagunas_laguiden'=>$id])->one();
+      $laguna = array(
+          "lagunomb" => $opciones->lagunomb,
+          "lagucapa" => $opciones->lagucapa,
+          "lagucant" => $opciones2->laesdisp,
+      );
+      print_r(json_encode($laguna));
     }
 }

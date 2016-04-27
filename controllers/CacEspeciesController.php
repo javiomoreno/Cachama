@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use yii\helpers\BaseJson;
 
 /**
  * CacEspeciesController implements the CRUD actions for CacEspecies model.
@@ -32,6 +33,11 @@ class CacEspeciesController extends Controller
                         'allow' => true,
                         'roles' => ['administrador'],
                     ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['usuario'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -49,8 +55,13 @@ class CacEspeciesController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 8;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 8;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 8;
+          $this->layout ="usuarioLayout";
+        }
         $model = CacEspecies::find()->all();
         return $this->render('index', [
             'model' => $model,
@@ -64,8 +75,13 @@ class CacEspeciesController extends Controller
      */
     public function actionView($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 8;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 8;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 8;
+          $this->layout ="usuarioLayout";
+        }
         $model2 = CacCompras::find()->where(['cac_especies_espeiden' => $id])->one();
         return $this->render('view', [
             'model' => $this->findModel($id), 'model2' => $model2,
@@ -79,8 +95,13 @@ class CacEspeciesController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 9;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 9;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 9;
+          $this->layout ="usuarioLayout";
+        }
         $model = new CacEspecies();
         $model2 = new CacCompras();
 
@@ -118,8 +139,13 @@ class CacEspeciesController extends Controller
      */
     public function actionUpdate($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 8;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 8;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 8;
+          $this->layout ="usuarioLayout";
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -169,5 +195,15 @@ class CacEspeciesController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionEspecie($id){
+      $opciones = $this->findModel($id);
+      $opciones2 = CacCompras::find()->where(['cac_especies_espeiden' => $id])->one();
+      $especie = array(
+          "espenomb" => $opciones->espenomb,
+          "especant" => $opciones2->compcant,
+      );
+      print_r(json_encode($especie));
     }
 }

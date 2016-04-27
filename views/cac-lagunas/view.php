@@ -2,12 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\CacUsuarios;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CacLagunas */
 
 $this->title = $model->lagunomb;
 $base64 = $model->lagucodi."".base64_encode($model->laguimag);
+$usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 
 ?>
 <div class="cac-lagunas-view">
@@ -23,6 +25,9 @@ $base64 = $model->lagucodi."".base64_encode($model->laguimag);
         </li>
         <li class="active">Detalle de Laguna</li>
       </ul><!-- /.breadcrumb -->
+      <div class="nombre-usuario">
+        Bienvenido, <?= $usuario->usuanomb." ".$usuario->usuaapel;?>
+      </div>
     </div>
   </div>
   <div class="row">

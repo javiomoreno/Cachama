@@ -32,6 +32,11 @@ class CacEquiposController extends Controller
                         'allow' => true,
                         'roles' => ['administrador'],
                     ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['usuario'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -49,8 +54,13 @@ class CacEquiposController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 4;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 4;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 4;
+          $this->layout ="usuarioLayout";
+        }
         $model = CacEquipos::find()->all();
         return $this->render('index', [
             'model' => $model,
@@ -64,8 +74,13 @@ class CacEquiposController extends Controller
      */
     public function actionView($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 4;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 4;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 4;
+          $this->layout ="usuarioLayout";
+        }
         $model2 = CacCompras::find()->where(['cac_equipos_equiiden' => $id])->one();
         return $this->render('view', [
             'model' => $this->findModel($id), 'model2' => $model2,
@@ -79,8 +94,13 @@ class CacEquiposController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 5;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 5;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 5;
+          $this->layout ="usuarioLayout";
+        }
         $model = new CacEquipos();
         $model2 = new CacCompras();
 
@@ -89,6 +109,7 @@ class CacEquiposController extends Controller
             $type = pathinfo($file, PATHINFO_EXTENSION);
             $model->equicodi = 'data:image/' . $type . ';base64,';
             $model->equiimag = file_get_contents($file->tempName);
+            $model->cac_estados_estaiden = 2;
             $model->usuamodi = \Yii::$app->user->getId();
             $model->fechmodi = date('Y-m-d H:i:s');
             $model2->cac_usuarios_usuaiden = \Yii::$app->user->getId();
@@ -121,8 +142,13 @@ class CacEquiposController extends Controller
      */
     public function actionUpdate($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 4;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 4;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 4;
+          $this->layout ="usuarioLayout";
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {

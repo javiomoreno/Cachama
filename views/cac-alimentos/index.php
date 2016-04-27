@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\web\ActiveRecord;
+use app\models\CacUsuarios;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\CacLagunasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Alimentos';
+$usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 ?>
 <div class="cac-alimentos-index">
 
@@ -21,6 +23,9 @@ $this->title = 'Alimentos';
         </li>
         <li class="active">Lista de Alimentos</li>
       </ul><!-- /.breadcrumb -->
+      <div class="nombre-usuario">
+        Bienvenido, <?= $usuario->usuanomb." ".$usuario->usuaapel;?>
+      </div>
     </div>
   </div>
   <div class="row">

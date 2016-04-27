@@ -3,11 +3,13 @@
 namespace app\models;
 
 use Yii;
+use app\models\CacEstados;
 
 /**
  * This is the model class for table "cac_lagunas".
  *
  * @property integer $laguiden
+ * @property integer $cac_estados_estaiden
  * @property string $lagunomb
  * @property string $lagutama
  * @property integer $lagucapa
@@ -35,12 +37,13 @@ class CacLagunas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lagucapa', 'usuamodi'], 'integer'],
+            [['lagucapa', 'usuamodi', 'cac_estados_estaiden'], 'integer'],
             [['fechmodi'], 'safe'],
             [['lagunomb', 'lagutama'], 'string', 'max' => 50],
             [['lagucodi'], 'string', 'max' => 30],
             [['lagudesc'], 'string', 'max' => 200],
             ['laguimag', 'file', 'extensions' => 'jpg, jpeg, gif, png, bmp', 'mimeTypes' => 'image/jpeg, image/gif, image/png, image/bmp', 'skipOnEmpty' => true, 'maxSize' => 1024000, 'tooBig' => 'Tamaño de Imágen Máximo 1MB'],
+            [['cac_estados_estaiden'], 'exist', 'skipOnError' => true, 'targetClass' => CacEstados::className(), 'targetAttribute' => ['cac_estados_estaiden' => 'estaiden']],
         ];
     }
 
@@ -51,6 +54,7 @@ class CacLagunas extends \yii\db\ActiveRecord
     {
         return [
             'laguiden' => 'Identificador de Laguna',
+            'cac_estados_estaiden' => 'Estado de la Laguna',
             'lagunomb' => 'Nombre de Laguna',
             'lagutama' => 'Tamaño de Laguna',
             'lagucapa' => 'Capacidad de Laguna',
@@ -68,5 +72,13 @@ class CacLagunas extends \yii\db\ActiveRecord
     public function getCacLagunasEspecies()
     {
         return $this->hasMany(CacLagunasEspecies::className(), ['cac_lagunas_laguiden' => 'laguiden']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCacEstadosEstaiden()
+    {
+        return $this->hasOne(CacEstados::className(), ['estaiden' => 'cac_estados_estaiden']);
     }
 }

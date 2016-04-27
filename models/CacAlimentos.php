@@ -13,6 +13,7 @@ use yii\db\Query;
  * @property integer $alimiden
  * @property integer $cac_proveedores_providen
  * @property string $alimnomb
+ * @property string $alimpeun
  * @property string $alimdesc
  * @property resource $alimimag
  * @property integer $usuamodi
@@ -39,6 +40,7 @@ class CacAlimentos extends \yii\db\ActiveRecord
         return [
             [['cac_proveedores_providen'], 'required'],
             [['cac_proveedores_providen', 'usuamodi'], 'integer'],
+            [['alimpeun'], 'number'],
             [['fechmodi'], 'safe'],
             [['alimnomb'], 'string', 'max' => 50],
             [['alimdesc'], 'string', 'max' => 200],
@@ -58,6 +60,7 @@ class CacAlimentos extends \yii\db\ActiveRecord
             'cac_proveedores_providen' => 'Proveedor',
             'alimnomb' => 'Nombre del Alimento',
             'alimdesc' => 'Descripción del Alimento',
+            'alimpeun' => 'Peso Unitario',
             'alimimag' => 'Alimimag',
             'alimcodi' => 'Alimcodi',
             'usuamodi' => 'Usuamodi',

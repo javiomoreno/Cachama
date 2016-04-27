@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use yii\helpers\BaseJson;
 
 /**
  * CacAlimentosController implements the CRUD actions for CacAlimentos model.
@@ -32,6 +33,11 @@ class CacAlimentosController extends Controller
                         'allow' => true,
                         'roles' => ['administrador'],
                     ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['usuario'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -49,8 +55,13 @@ class CacAlimentosController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 6;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 6;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 6;
+          $this->layout ="usuarioLayout";
+        }
         $model = CacAlimentos::find()->all();
         return $this->render('index', [
             'model' => $model,
@@ -64,8 +75,13 @@ class CacAlimentosController extends Controller
      */
     public function actionView($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 6;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 6;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 6;
+          $this->layout ="usuarioLayout";
+        }
         $model2 = CacCompras::find()->where(['cac_alimentos_alimiden' => $id])->one();
         return $this->render('view', [
             'model' => $this->findModel($id), 'model2' => $model2,
@@ -79,8 +95,13 @@ class CacAlimentosController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 7;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 7;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 7;
+          $this->layout ="usuarioLayout";
+        }
         $model = new CacAlimentos();
         $model2 = new CacCompras();
 
@@ -121,8 +142,13 @@ class CacAlimentosController extends Controller
      */
     public function actionUpdate($id)
     {
-        Yii::$app->view->params['pestanaAdministrador'] = 6;
-        $this->layout ="administradorLayout";
+        if(\Yii::$app->user->can('administrador')){
+          Yii::$app->view->params['pestanaAdministrador'] = 6;
+          $this->layout ="administradorLayout";
+        }else if(\Yii::$app->user->can('usuario')){
+          Yii::$app->view->params['pestanaUsuario'] = 6;
+          $this->layout ="usuarioLayout";
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -172,5 +198,15 @@ class CacAlimentosController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionAlimento($id){
+      $opciones = $this->findModel($id);
+      $opciones2 = CacCompras::find()->where(['cac_alimentos_alimiden' => $id])->one();
+      $alimento = array(
+          "alimnomb" => $opciones->alimnomb,
+          "alimcant" => ($opciones->alimpeun * $opciones2->compcant),
+      );
+      print_r(json_encode($alimento));
     }
 }

@@ -49,6 +49,8 @@ class UsuarioController extends Controller
 
     public function actionIndex()
     {
+        Yii::$app->view->params['pestanaUsuario'] = 1;
+        $this->layout ="usuarioLayout";
         $this->layout ="usuarioLayout";
         return $this->render('index');
     }

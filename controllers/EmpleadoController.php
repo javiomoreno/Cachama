@@ -16,10 +16,10 @@ class EmpleadoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index'],
+                'only' => ['index', 'registro-diario'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'registro-diario'],
                         'allow' => true,
                         'roles' => ['empleado'],
                     ],
@@ -49,7 +49,8 @@ class EmpleadoController extends Controller
 
     public function actionIndex()
     {
-        $this->layout ="usuarioLayout";
+        Yii::$app->view->params['pestanaEmpleado'] = 1;
+        $this->layout ="empleadoLayout";
         return $this->render('index');
     }
 
@@ -75,5 +76,12 @@ class EmpleadoController extends Controller
           return $this->render('editar-perfil', ['model' => $model]);
         }
         return $this->render('editar-perfil', ['model' => $model]);
+    }
+
+    public function actionRegistroDiario()
+    {
+        Yii::$app->view->params['pestanaEmpleado'] = 3;
+        $this->layout ="empleadoLayout";
+        return $this->render('registro-diario');
     }
 }

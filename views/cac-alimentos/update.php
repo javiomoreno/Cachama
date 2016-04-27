@@ -11,7 +11,7 @@ $titulo = 'Editar Alimento';
 <div class="cac-alimentos-update">
 
     <?= $this->render('_form', [
-        'model' => $model, 'titulo' => $titulo,
+        'model' => $model, 'model2' => $model2, 'titulo' => $titulo,
     ]) ?>
 
 </div>
