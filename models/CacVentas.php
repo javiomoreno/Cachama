@@ -108,4 +108,31 @@ class CacVentas extends \yii\db\ActiveRecord
         return ArrayHelper::map($opciones, 'laesiden', 'lagunomb');
     }
 
+    public static function getTotalVentasAno($anho){
+        $venta = CacVentas::find()->where(['YEAR(ventfech)' => $anho])->sum('venttota');
+        if ($venta == '') {
+          $venta = 0;
+        }
+        else {
+          $venta = floatval($venta);
+        }
+        return $venta;
+    }
+
+    public static function getVentasMes($anho){
+        $vectorMeses = [];
+        for ($i=0; $i < 12; $i++) {
+          $vectorMeses[$i] = CacVentas::find()
+                    ->where(['MONTH(ventfech)' => $i])
+                    ->andwhere(['YEAR(ventfech)' => $anho])
+                    ->sum('venttota');
+          if ($vectorMeses[$i] == '') {
+            $vectorMeses[$i] = 0;
+          }
+          else {
+            $vectorMeses[$i] = floatval($vectorMeses[$i]);
+          }
+        }
+        return $vectorMeses;
+    }
 }

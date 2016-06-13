@@ -75,7 +75,7 @@ class SiteController extends Controller
                 }*/
                 return Yii::$app->getResponse()->redirect(array('/empleado/index'));
             }
-            return $this->goBack();
+            return $this->goHome();
         }
         return $this->render('index', [
             'model' => $model,

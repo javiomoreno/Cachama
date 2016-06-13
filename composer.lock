@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "869d3935f85e2e090d655dbcdf31a760",
-    "content-hash": "fa8f8b4c53a761235ee06244474f8fc7",
+    "hash": "002b27a0cbae12f8e84235646b8c8ca5",
+    "content-hash": "31ac8156790547c0582fb08160a18db4",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -323,6 +323,54 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "miloschuman/yii2-highcharts-widget",
+            "version": "v4.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/miloschuman/yii2-highcharts.git",
+                "reference": "6951fef6cc72273f8e4278154eb756416d5caab4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/6951fef6cc72273f8e4278154eb756416d5caab4",
+                "reference": "6951fef6cc72273f8e4278154eb756416d5caab4",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "miloschuman\\highcharts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milo Schuman",
+                    "email": "miloschuman@gmail.com"
+                }
+            ],
+            "description": "Highcharts widget for Yii 2 Framework.",
+            "homepage": "https://github.com/miloschuman/yii2-highcharts",
+            "keywords": [
+                "extension",
+                "highcharts",
+                "highmaps",
+                "highstock",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-05-26 17:42:51"
         },
         {
             "name": "swiftmailer/swiftmailer",

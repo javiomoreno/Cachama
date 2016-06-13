@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\CacUsuarios;
+use miloschuman\highcharts\Highcharts;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CacLagunas */
@@ -32,9 +33,52 @@ $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
               <h1>Reporte de Ventas</h1>
           </div>
       </div>
-      <div style="text-align: center;">
-        <img src="../imagenes/enconstruccion.jpg" alt="" />
-      </div>
+    </div>
+    <div class="row">
+      <?= Highcharts::widget([
+           'options' => [
+             'chart' => [
+                 'plotBackgroundColor' => null,
+                 'plotBorderWidth' => null,
+                 'plotShadow' => false,
+                 'type' => 'pie'
+               ],
+               'title' => [
+                   'text' => 'Ventas del Año 2016'
+               ],
+               'tooltip' => [
+                   'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>'
+               ],
+               'plotOptions' => [
+                   'pie' => [
+                       'allowPointSelect' => true,
+                       'cursor' => 'pointer',
+                       'dataLabels' => [
+                           'enabled' => false
+                       ],
+                       'showInLegend' => true
+                   ]
+               ],
+              'series' => [
+                  ['name' => 'Porcentaje', 'colorByPoint' => true,
+                  'data' => [['name' =>  'Enero', 'y'=> $porcentajes[0]],
+                             ['name' =>  'Febrero', 'y'=> $porcentajes[1]],
+                             ['name' =>  'Marzo', 'y'=> $porcentajes[2]],
+                             ['name' =>  'Abril', 'y'=> $porcentajes[3]],
+                             ['name' =>  'Mayo', 'y'=> $porcentajes[4]],
+                             ['name' =>  'Junio', 'y'=> $porcentajes[5]],
+                             ['name' =>  'Julio', 'y'=> $porcentajes[6]],
+                             ['name' =>  'Agosto', 'y'=> $porcentajes[7]],
+                             ['name' =>  'Septiembre', 'y'=> $porcentajes[8]],
+                             ['name' =>  'Octubre', 'y'=> $porcentajes[9]],
+                             ['name' =>  'Noviembre', 'y'=> $porcentajes[10]],
+                             ['name' =>  'Diciembre', 'y'=> $porcentajes[11]],
+                            ],
+                  ]
+              ]
+           ]
+        ]);
+      ?>
     </div>
 </div>
 <footer class="footer">

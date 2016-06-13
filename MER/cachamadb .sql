@@ -23,25 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `auth_assignment`
---
-
-CREATE TABLE IF NOT EXISTS `auth_assignment` (
-  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `auth_assignment`
---
-
-INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('administrador', '1', NULL);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `auth_item`
 --
 
@@ -59,7 +40,28 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 -- Volcado de datos para la tabla `auth_item`
 --
 
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('administrador', '1', 'Administrador del Sitema', NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `auth_assignment`
+--
+
+CREATE TABLE IF NOT EXISTS `auth_assignment` (
+  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `auth_assignment`
+--
+
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('administrador', '1', NULL);
+
 
 --
 -- Estructura de tabla para la tabla `auth_item_child`

@@ -7,6 +7,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use yii\filters\AccessControl;
+use app\models\CacCompras;
+use app\models\CacVentas;
+use yii\db\Query;
 
 class CacReportesController extends Controller
 {
@@ -60,7 +63,14 @@ class CacReportesController extends Controller
           Yii::$app->view->params['pestanaUsuario'] = 21;
           $this->layout ="usuarioLayout";
         }
-        return $this->render('compras');
+        $vectorEquipos = [];
+        $vectorEquipos = CacCompras::getEquiposAno('2016');
+        $vectorEspecies = [];
+        $vectorEspecies = CacCompras::getEspeciesAno('2016');
+        $vectorAlimentos = [];
+        $vectorAlimentos = CacCompras::getAlimentosAno('2016');
+
+        return $this->render('compras', ['vectorEquipos' => $vectorEquipos, 'vectorEspecies' => $vectorEspecies, 'vectorAlimentos' => $vectorAlimentos]);
     }
 
     public function actionVentas()
@@ -72,6 +82,14 @@ class CacReportesController extends Controller
           Yii::$app->view->params['pestanaUsuario'] = 22;
           $this->layout ="usuarioLayout";
         }
-        return $this->render('ventas');
+        $totalVentas = CacVentas::getTotalVentasAno('2016');
+        $ventasMes = CacVentas::getVentasMes('2016');
+        $porcentajes = [];
+        $cont = 0;
+        foreach ($ventasMes as $value) {
+          $porcentajes[$cont] = $value * 100 /$totalVentas;
+          $cont ++;
+        }
+        return $this->render('ventas', ['porcentajes' => $porcentajes]);
     }
 }

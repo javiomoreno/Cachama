@@ -101,4 +101,58 @@ class CacCompras extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CacUsuarios::className(), ['usuaiden' => 'cac_usuarios_usuaiden']);
     }
+
+    public static function getEspeciesAno($anho){
+      $vectorEspecies = [];
+      for ($i=0; $i < 12; $i++) {
+        $vectorEspecies[$i] = CacCompras::find()
+                  ->where(['MONTH(compfech)' => $i])
+                  ->andwhere(['YEAR(compfech)' => $anho])
+                  ->andwhere(['not', ['cac_especies_espeiden' => null]])
+                  ->sum('comptota');
+        if ($vectorEspecies[$i] == '') {
+          $vectorEspecies[$i] = 0;
+        }
+        else {
+          $vectorEspecies[$i] = floatval($vectorEspecies[$i]);
+        }
+      }
+      return $vectorEspecies;
+    }
+
+    public static function getEquiposAno($anho){
+      $vectorEquipos = [];
+      for ($i=0; $i < 12; $i++) {
+        $vectorEquipos[$i] = CacCompras::find()
+                  ->where(['MONTH(compfech)' => $i])
+                  ->andwhere(['YEAR(compfech)' => $anho])
+                  ->andwhere(['not', ['cac_equipos_equiiden' => null]])
+                  ->sum('comptota');
+        if ($vectorEquipos[$i] == '') {
+          $vectorEquipos[$i] = 0;
+        }
+        else {
+          $vectorEquipos[$i] = floatval($vectorEquipos[$i]);
+        }
+      }
+      return $vectorEquipos;
+    }
+
+    public static function getAlimentosAno($anho){
+      $vectorAlimentos = [];
+      for ($i=0; $i < 12; $i++) {
+        $vectorAlimentos[$i] = CacCompras::find()
+                  ->where(['MONTH(compfech)' => $i])
+                  ->andwhere(['YEAR(compfech)' => $anho])
+                  ->andwhere(['not', ['cac_alimentos_alimiden' => null]])
+                  ->sum('comptota');
+        if ($vectorAlimentos[$i] == '') {
+          $vectorAlimentos[$i] = 0;
+        }
+        else {
+          $vectorAlimentos[$i] = floatval($vectorAlimentos[$i]);
+        }
+      }
+      return $vectorAlimentos;
+    }
 }
