@@ -9,6 +9,7 @@ use miloschuman\highcharts\Highcharts;
 /* @var $model app\models\CacLagunas */
 /* @var $form yii\widgets\ActiveForm */
 
+$this->title = 'Reporte Ventas | Cachamas';
 $usuario =  CacUsuarios::findIdentity(\Yii::$app->user->getId());
 ?>
 

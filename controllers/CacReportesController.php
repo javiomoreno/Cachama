@@ -86,9 +86,13 @@ class CacReportesController extends Controller
         $ventasMes = CacVentas::getVentasMes('2016');
         $porcentajes = [];
         $cont = 0;
-        foreach ($ventasMes as $value) {
-          $porcentajes[$cont] = $value * 100 /$totalVentas;
-          $cont ++;
+        if ($totalVentas != 0) {
+          foreach ($ventasMes as $value) {
+            $porcentajes[$cont] = $value * 100 /$totalVentas;
+            $cont ++;
+          }
+        }else {
+          $porcentajes = 0;
         }
         return $this->render('ventas', ['porcentajes' => $porcentajes]);
     }
