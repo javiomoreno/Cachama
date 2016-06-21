@@ -21,6 +21,10 @@ body {
   margin-left: auto;
 }
 
+.wrap2{
+  padding-top: 50px;
+}
+
 .wrap2 > .container{
     margin-top: 80px;
     margin-bottom: -40px;

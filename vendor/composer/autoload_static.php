@@ -16,11 +16,7 @@ class ComposerStaticInitf01e6fadfac01b1724afc43ab8deb023
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
-            'yii\\gii\\' => 8,
-            'yii\\faker\\' => 10,
-            'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
-            'yii\\codeception\\' => 16,
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
@@ -31,10 +27,6 @@ class ComposerStaticInitf01e6fadfac01b1724afc43ab8deb023
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
-        ),
-        'F' => 
-        array (
-            'Faker\\' => 6,
         ),
     );
 
@@ -47,25 +39,9 @@ class ComposerStaticInitf01e6fadfac01b1724afc43ab8deb023
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
         ),
-        'yii\\gii\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-gii',
-        ),
-        'yii\\faker\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-faker',
-        ),
-        'yii\\debug\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-debug',
-        ),
         'yii\\composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-composer',
-        ),
-        'yii\\codeception\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-codeception',
         ),
         'yii\\bootstrap\\' => 
         array (
@@ -83,10 +59,6 @@ class ComposerStaticInitf01e6fadfac01b1724afc43ab8deb023
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
         ),
-        'Faker\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
-        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -95,13 +67,6 @@ class ComposerStaticInitf01e6fadfac01b1724afc43ab8deb023
             'HTMLPurifier' => 
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
-            ),
-        ),
-        'D' => 
-        array (
-            'Diff' => 
-            array (
-                0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
             ),
         ),
     );
